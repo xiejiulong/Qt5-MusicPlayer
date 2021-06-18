@@ -8,53 +8,53 @@ using namespace std;
 #include <QListWidget> 
 
 class MusicListWidget;
-//æ­Œæ›²åˆ—è¡¨
+//¸èÇúÁĞ±í
 class MusicList
 {    
-    //æ­Œå•å
+    //¸èµ¥Ãû
     QString name;
-    //æ‰€å­˜å‚¨çš„æ­Œæ›²
+    //Ëù´æ´¢µÄ¸èÇú
     vector<Music> music;
     
-    //æ§åˆ¶æ˜¯å¦éœ€è¦ä¸æ•°æ®åº“äº¤äº’ï¼ˆæ¯”å¦‚ï¼šå½“å‰æ’­æ”¾åˆ—è¡¨çš„æ­Œå•åˆ é™¤æ­Œæ›²æ—¶ä¸éœ€è¦æ›´æ–°æ•°æ®åº“ï¼Œåªæ˜¯ä¸´æ—¶çš„ï¼‰
+    //¿ØÖÆÊÇ·ñĞèÒªÓëÊı¾İ¿â½»»¥£¨±ÈÈç£ºµ±Ç°²¥·ÅÁĞ±íµÄ¸èµ¥É¾³ı¸èÇúÊ±²»ĞèÒª¸üĞÂÊı¾İ¿â£¬Ö»ÊÇÁÙÊ±µÄ£©
     bool sql_flag=true;
     
     friend class MainWidget;
 public:
     MusicList(){}
     MusicList(const QList<QUrl>& urls,QString iname="");
-    //è®¾å®šæ­Œå•å
+    //Éè¶¨¸èµ¥Ãû
     void setName(const QString& iname){name=iname;}
     QString getName(){ return name; }
-    //è®¾å®šæ•°æ®åº“æ ‡å¿—
+    //Éè¶¨Êı¾İ¿â±êÖ¾
     void setSQL(bool on){ sql_flag=on; }
-    //ä»urlæ·»åŠ æ­Œæ›²
+    //´ÓurlÌí¼Ó¸èÇú
     void addMusic(const QList<QUrl>& urls);
-    //æ·»åŠ ä¸€é¦–æ­Œæ›²
+    //Ìí¼ÓÒ»Ê×¸èÇú
     void addMusic(const Music& iMusic);
-    //è·å–æŒ‡å®šä½ç½®çš„æ­Œæ›²
+    //»ñÈ¡Ö¸¶¨Î»ÖÃµÄ¸èÇú
     Music getMusic(int pos);
-    //å°†æœ¬æ­Œå•åŠ å…¥æ’­æ”¾åˆ—è¡¨
+    //½«±¾¸èµ¥¼ÓÈë²¥·ÅÁĞ±í
     void addToPlayList(QMediaPlaylist *playlist);
-    //æ­Œå•å¯è§†åŒ–
+    //¸èµ¥¿ÉÊÓ»¯
     void addToListWidget(MusicListWidget *listWidget);
-    //ç§»é™¤æŒ‡å®šçš„æ­Œæ›²
+    //ÒÆ³ıÖ¸¶¨µÄ¸èÇú
     void removeMusic(int pos);
-    //åœ¨æ–‡ä»¶å¤¹ä¸­æ‰“å¼€
+    //ÔÚÎÄ¼ş¼ĞÖĞ´ò¿ª
     void showInExplorer(int pos);
-    //æ˜¾ç¤ºæŒ‡å®šæ­Œæ›²è¯¦ç»†ä¿¡æ¯
+    //ÏÔÊ¾Ö¸¶¨¸èÇúÏêÏ¸ĞÅÏ¢
     void detail(int pos);
-    //æ•°æ®åº“ä¸­ç§»é™¤å…¨éƒ¨æœ¬æ­Œå•çš„æ­Œæ›²
+    //Êı¾İ¿âÖĞÒÆ³ıÈ«²¿±¾¸èµ¥µÄ¸èÇú
     void remove_SQL_all();
-    //å°†æ­Œå•ä¸­çš„æ­Œæ›²å…¨éƒ¨å†™å…¥æ•°æ®åº“
+    //½«¸èµ¥ÖĞµÄ¸èÇúÈ«²¿Ğ´ÈëÊı¾İ¿â
     void insert_SQL_all();
-    //ä»æ•°æ®ä¸­æ¢å¤æœ¬æ­Œå•
+    //´ÓÊı¾İÖĞ»Ö¸´±¾¸èµ¥
     void read_fromSQL();
-    //å°†æœ¬åˆ—è¡¨ä¸­çš„æ­Œæ›²æ’åº
+    //½«±¾ÁĞ±íÖĞµÄ¸èÇúÅÅĞò
     void sort_by(COMPARE key);
-    //æ•´ç†æ­Œå•ï¼šå°†æ­Œå•ä¸­çš„é‡å¤æ­Œæ›²å»æ‰å¹¶æ’åº
+    //ÕûÀí¸èµ¥£º½«¸èµ¥ÖĞµÄÖØ¸´¸èÇúÈ¥µô²¢ÅÅĞò
     void neaten();
-    //æ¸…ç©ºæœ¬æ­Œå•
+    //Çå¿Õ±¾¸èµ¥
     void clear();
 };
 

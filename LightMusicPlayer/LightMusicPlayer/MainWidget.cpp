@@ -12,1016 +12,1034 @@
 #include <QInputDialog>
 #include "MusicListDialog.h"
 
-MainWidget::MainWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::Widget)
+MainWidget::MainWidget(QWidget* parent) :
+	QWidget(parent),
+	ui(new Ui::Widget)
 {
-    ui->setupUi(this);
-    
-    //UIåˆå§‹åŒ–ï¼ˆ.uiæ–‡ä»¶ä¸­æ— æ³•å®Œæˆçš„è®¾ç½®ï¼Œè¿™é‡Œè¡¥ä¸Šï¼‰
-    init_UI();
+	ui->setupUi(this);
 
-    //åˆå§‹åŒ–ç”Ÿæˆæ’­æ”¾å™¨æ¨¡å—åŠç›¸å…³ç»„ä»¶
-    init_play();
-    
-    //å³é”®èœå•åˆå§‹åŒ–
-    init_actions();
-    
-    //æ•°æ®åº“åˆå§‹åŒ–
-    init_sqlite();
-    
-    //æ­Œå•åˆå§‹åŒ–
-    init_musicList();
-    
-    //é…ç½®åˆå§‹åŒ–
-    init_settings();
-    
-    //ç³»ç»Ÿæ‰˜ç›˜åˆå§‹åŒ–
-    init_systemTrayIcon();
+	//UI³õÊ¼»¯£¨.uiÎÄ¼şÖĞÎŞ·¨Íê³ÉµÄÉèÖÃ£¬ÕâÀï²¹ÉÏ£©
+	init_UI();
+
+	//³õÊ¼»¯Éú³É²¥·ÅÆ÷Ä£¿é¼°Ïà¹Ø×é¼ş
+	init_play();
+
+	//ÓÒ¼ü²Ëµ¥³õÊ¼»¯
+	init_actions();
+
+	//Êı¾İ¿â³õÊ¼»¯
+	init_sqlite();
+
+	//¸èµ¥³õÊ¼»¯
+	init_musicList();
+
+	//ÅäÖÃ³õÊ¼»¯
+	init_settings();
+
+	//ÏµÍ³ÍĞÅÌ³õÊ¼»¯
+	init_systemTrayIcon();
 }
 
 MainWidget::~MainWidget()
 {
-    delete ui;
+	delete ui;
 }
-void MainWidget::paintEvent(QPaintEvent *event)
+void MainWidget::paintEvent(QPaintEvent* event)
 {
-    //éœ€è¦æ·»åŠ ä»¥ä¸‹ä»£ç ï¼Œæ‰èƒ½æ­£å¸¸åœ¨ä¸»çª—å£Widgetä¸­æ˜¾ç¤ºèƒŒæ™¯å›¾ç‰‡ï¼ˆhttps://blog.csdn.net/xiejie0226/article/details/81165379ï¼‰
-    QStyleOption opt;
-    opt.init(this);
-    QPainter p(this);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-    QWidget::paintEvent(event);
+	//ĞèÒªÌí¼ÓÒÔÏÂ´úÂë£¬²ÅÄÜÕı³£ÔÚÖ÷´°¿ÚWidgetÖĞÏÔÊ¾±³¾°Í¼Æ¬£¨https://blog.csdn.net/xiejie0226/article/details/81165379£©
+	QStyleOption opt;
+	opt.init(this);
+	QPainter p(this);
+	style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+	QWidget::paintEvent(event);
 }
 
 void MainWidget::init_UI()
 {
-    //çª—å£è®¾ç½®åœ†è§’åï¼Œä¼šå‡ºç°ç•™ç™½ï¼Œéœ€è¦æ·»åŠ ä»¥ä¸‹ä»£ç 
-    setAttribute(Qt::WA_TranslucentBackground, true);
-    //å»é™¤æ ‡é¢˜æ 
-    setWindowFlags(Qt::FramelessWindowHint);
-    
-    //UIåˆå§‹åŒ–ï¼ˆ.uiæ–‡ä»¶ä¸­æ— æ³•å®Œæˆçš„è®¾ç½®ï¼Œè¿™é‡Œè¡¥ä¸Šï¼‰
-    ui->volumeSlider->hide();
-    ui->playListWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
-    ui->localMusicWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
-    ui->favorMusicWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
-    ui->nameListWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
-    ui->musicListWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
-    ui->playListWidget->setIcon(QIcon(":/image/image/image/music.png"));
-    ui->localMusicWidget->setIcon(QIcon(":/image/image/image/music-file.png"));
-    ui->favorMusicWidget->setIcon(QIcon(":/image/image/image/like.png"));
-    ui->musicListWidget->setIcon(QIcon(":/image/image/image/MusicListItem.png"));
+	//´°¿ÚÉèÖÃÔ²½Çºó£¬»á³öÏÖÁô°×£¬ĞèÒªÌí¼ÓÒÔÏÂ´úÂë
+	setAttribute(Qt::WA_TranslucentBackground, true);
+	//È¥³ı±êÌâÀ¸
+	setWindowFlags(Qt::FramelessWindowHint);
+
+	//UI³õÊ¼»¯£¨.uiÎÄ¼şÖĞÎŞ·¨Íê³ÉµÄÉèÖÃ£¬ÕâÀï²¹ÉÏ£©
+	ui->volumeSlider->hide();
+	ui->playListWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
+	ui->localMusicWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
+	ui->favorMusicWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
+	ui->nameListWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
+	ui->musicListWidget->verticalScrollBar()->setStyleSheet(ListWidgetStyle());
+	ui->playListWidget->setIcon(QIcon(":/image/image/image/music.png"));
+	ui->localMusicWidget->setIcon(QIcon(":/image/image/image/music-file.png"));
+	ui->favorMusicWidget->setIcon(QIcon(":/image/image/image/like.png"));
+	ui->musicListWidget->setIcon(QIcon(":/image/image/image/MusicListItem.png"));
 }
 
 void MainWidget::init_play()
 {
-    //æ’­æ”¾å™¨åˆå§‹åŒ–
-    player= new QMediaPlayer(this);
-    playlist=new QMediaPlaylist;    
-    playlist->setPlaybackMode(QMediaPlaylist::Loop);
-    player->setPlaylist(playlist);
-    //è¿æ¥æ§½ä¸ä¿¡å·
-    connect(ui->positionSlider, &QAbstractSlider::valueChanged, this, &MainWidget::setPosition);
-    connect(player, &QMediaPlayer::positionChanged, this, &MainWidget::updatePosition);
-    connect(player, &QMediaPlayer::durationChanged, this, &MainWidget::updateDuration);
-    connect(player, &QMediaPlayer::metaDataAvailableChanged, this, &MainWidget::updateInfo);
-    connect(player, &QMediaPlayer::stateChanged, this, &MainWidget::updatePlayBtn);
+	//²¥·ÅÆ÷³õÊ¼»¯
+	player = new QMediaPlayer(this);
+	playlist = new QMediaPlaylist;
+	playlist->setPlaybackMode(QMediaPlaylist::Loop);
+	player->setPlaylist(playlist);
+	//Á¬½Ó²ÛÓëĞÅºÅ
+	connect(ui->positionSlider, &QAbstractSlider::valueChanged, this, &MainWidget::setPosition);
+	connect(player, &QMediaPlayer::positionChanged, this, &MainWidget::updatePosition);
+	connect(player, &QMediaPlayer::durationChanged, this, &MainWidget::updateDuration);
+	connect(player, &QMediaPlayer::metaDataAvailableChanged, this, &MainWidget::updateInfo);
+	connect(player, &QMediaPlayer::stateChanged, this, &MainWidget::updatePlayBtn);
 }
 
 void MainWidget::init_actions()
 {
-    //â€œå½“å‰æ’­æ”¾â€åˆ—è¡¨å³é”®èœå•åˆå§‹åŒ–
-    ui->playListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    QAction *action_playlist_delete=new QAction(QIcon(":/image/image/image/remove.png"),u8"ç§»é™¤");
-    connect(action_playlist_delete,&QAction::triggered,this,&MainWidget::playlist_removeMusic);
-    QAction *action_playlist_showfile=new QAction(QIcon(":/image/image/image/music-dir.png"),u8"æ‰“å¼€æ‰€åœ¨æ–‡ä»¶å¤¹");
-    connect(action_playlist_showfile,&QAction::triggered,ui->playListWidget,&MusicListWidget::showInExplorer);
-    QAction *action_playlist_detail=new QAction(QIcon(":/image/image/image/detail.png"),u8"æ­Œæ›²è¯¦æƒ…");
-    connect(action_playlist_detail,&QAction::triggered,ui->playListWidget,&MusicListWidget::detail);
-    QAction *action_play_to_favor=new QAction(QIcon(":/image/image/image/To-like.png"),u8"æ·»åŠ åˆ°æˆ‘å–œæ¬¢");
-    connect(action_play_to_favor,&QAction::triggered,this,&MainWidget::play_to_favor);
-    menu_playlist=new QMenu(this);
-    menu_playlist->addAction(action_playlist_delete);
-    menu_playlist->addAction(action_playlist_showfile);
-    menu_playlist->addAction(action_playlist_detail);
-    menu_playlist->addAction(action_play_to_favor);
-    
-    //â€œæœ¬åœ°éŸ³ä¹â€åˆ—è¡¨å³é”®èœå•åˆå§‹åŒ–
-    ui->localMusicWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    QAction *action_locallist_delete=new QAction(QIcon(":/image/image/image/remove.png"),u8"ç§»é™¤");
-    connect(action_locallist_delete,&QAction::triggered,ui->localMusicWidget,&MusicListWidget::removeMusic);
-    QAction *action_locallist_showfile=new QAction(QIcon(":/image/image/image/music-dir.png"),u8"æ‰“å¼€æ‰€åœ¨æ–‡ä»¶å¤¹");
-    connect(action_locallist_showfile,&QAction::triggered,ui->localMusicWidget,&MusicListWidget::showInExplorer);
-    QAction *action_locallist_detail=new QAction(QIcon(":/image/image/image/detail.png"),u8"æ­Œæ›²è¯¦æƒ…");
-    connect(action_locallist_detail,&QAction::triggered,ui->localMusicWidget,&MusicListWidget::detail);
-    QAction *action_local_to_favor=new QAction(QIcon(":/image/image/image/To-like.png"),u8"æ·»åŠ åˆ°æˆ‘å–œæ¬¢");
-    connect(action_local_to_favor,&QAction::triggered,this,&MainWidget::local_to_favor);
-    QAction *action_local_to_playlist=new QAction(QIcon(":/image/image/image/To-playlist.png"),u8"æ·»åŠ åˆ°å½“å‰æ’­æ”¾åˆ—è¡¨");
-    connect(action_local_to_playlist,&QAction::triggered,this,&MainWidget::local_to_playlist);
-    menu_locallist=new QMenu(this);
-    menu_locallist->addAction(action_locallist_delete);
-    menu_locallist->addAction(action_locallist_showfile);
-    menu_locallist->addAction(action_locallist_detail);
-    menu_locallist->addAction(action_local_to_favor);
-    menu_locallist->addAction(action_local_to_playlist);
-    
-    //â€œæˆ‘å–œæ¬¢â€åˆ—è¡¨å³é”®èœå•åˆå§‹åŒ–
-    ui->favorMusicWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    QAction *action_favorlist_delete = new QAction(QIcon(":/image/image/image/remove.png"),u8"ç§»é™¤");
+	//¡°µ±Ç°²¥·Å¡±ÁĞ±íÓÒ¼ü²Ëµ¥³õÊ¼»¯
+	ui->playListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+	QAction* action_playlist_delete = new QAction(QIcon(":/image/image/image/remove.png"), u8"ÒÆ³ı");
+	connect(action_playlist_delete, &QAction::triggered, this, &MainWidget::playlist_removeMusic);
+	QAction* action_playlist_showfile = new QAction(QIcon(":/image/image/image/music-dir.png"), u8"´ò¿ªËùÔÚÎÄ¼ş¼Ğ");
+	connect(action_playlist_showfile, &QAction::triggered, ui->playListWidget, &MusicListWidget::showInExplorer);
+	QAction* action_playlist_detail = new QAction(QIcon(":/image/image/image/detail.png"), u8"¸èÇúÏêÇé");
+	connect(action_playlist_detail, &QAction::triggered, ui->playListWidget, &MusicListWidget::detail);
+	QAction* action_play_to_favor = new QAction(QIcon(":/image/image/image/To-like.png"), u8"Ìí¼Óµ½ÎÒÏ²»¶");
+	connect(action_play_to_favor, &QAction::triggered, this, &MainWidget::play_to_favor);
+	menu_playlist = new QMenu(this);
+	menu_playlist->addAction(action_playlist_delete);
+	menu_playlist->addAction(action_playlist_showfile);
+	menu_playlist->addAction(action_playlist_detail);
+	menu_playlist->addAction(action_play_to_favor);
+
+	//¡°±¾µØÒôÀÖ¡±ÁĞ±íÓÒ¼ü²Ëµ¥³õÊ¼»¯
+	ui->localMusicWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+	QAction* action_locallist_delete = new QAction(QIcon(":/image/image/image/remove.png"), u8"ÒÆ³ı");
+	connect(action_locallist_delete, &QAction::triggered, ui->localMusicWidget, &MusicListWidget::removeMusic);
+	QAction* action_locallist_showfile = new QAction(QIcon(":/image/image/image/music-dir.png"), u8"´ò¿ªËùÔÚÎÄ¼ş¼Ğ");
+	connect(action_locallist_showfile, &QAction::triggered, ui->localMusicWidget, &MusicListWidget::showInExplorer);
+	QAction* action_locallist_detail = new QAction(QIcon(":/image/image/image/detail.png"), u8"¸èÇúÏêÇé");
+	connect(action_locallist_detail, &QAction::triggered, ui->localMusicWidget, &MusicListWidget::detail);
+	QAction* action_local_to_favor = new QAction(QIcon(":/image/image/image/To-like.png"), u8"Ìí¼Óµ½ÎÒÏ²»¶");
+	connect(action_local_to_favor, &QAction::triggered, this, &MainWidget::local_to_favor);
+	QAction* action_local_to_playlist = new QAction(QIcon(":/image/image/image/To-playlist.png"), u8"Ìí¼Óµ½µ±Ç°²¥·ÅÁĞ±í");
+	connect(action_local_to_playlist, &QAction::triggered, this, &MainWidget::local_to_playlist);
+	menu_locallist = new QMenu(this);
+	menu_locallist->addAction(action_locallist_delete);
+	menu_locallist->addAction(action_locallist_showfile);
+	menu_locallist->addAction(action_locallist_detail);
+	menu_locallist->addAction(action_local_to_favor);
+	menu_locallist->addAction(action_local_to_playlist);
+
+	//¡°ÎÒÏ²»¶¡±ÁĞ±íÓÒ¼ü²Ëµ¥³õÊ¼»¯
+	ui->favorMusicWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+	QAction* action_favorlist_delete = new QAction(QIcon(":/image/image/image/remove.png"), u8"ÒÆ³ı");
 	connect(action_favorlist_delete, &QAction::triggered, ui->favorMusicWidget, &MusicListWidget::removeMusic);
-	QAction *action_favorlist_showfile = new QAction(QIcon(":/image/image/image/music-dir.png"),u8"æ‰“å¼€æ‰€åœ¨æ–‡ä»¶å¤¹");
+	QAction* action_favorlist_showfile = new QAction(QIcon(":/image/image/image/music-dir.png"), u8"´ò¿ªËùÔÚÎÄ¼ş¼Ğ");
 	connect(action_favorlist_showfile, &QAction::triggered, ui->favorMusicWidget, &MusicListWidget::showInExplorer);
-	QAction *action_favorlist_detail = new QAction(QIcon(":/image/image/image/detail.png"),u8"æ­Œæ›²è¯¦æƒ…");
+	QAction* action_favorlist_detail = new QAction(QIcon(":/image/image/image/detail.png"), u8"¸èÇúÏêÇé");
 	connect(action_favorlist_detail, &QAction::triggered, ui->favorMusicWidget, &MusicListWidget::detail);
-    QAction *action_favor_to_playlist=new QAction(QIcon(":/image/image/image/To-playlist.png"),u8"æ·»åŠ åˆ°å½“å‰æ’­æ”¾åˆ—è¡¨");
-    connect(action_favor_to_playlist,&QAction::triggered,this,&MainWidget::favor_to_playlist);
+	QAction* action_favor_to_playlist = new QAction(QIcon(":/image/image/image/To-playlist.png"), u8"Ìí¼Óµ½µ±Ç°²¥·ÅÁĞ±í");
+	connect(action_favor_to_playlist, &QAction::triggered, this, &MainWidget::favor_to_playlist);
 	menu_favorlist = new QMenu(this);
 	menu_favorlist->addAction(action_favorlist_delete);
 	menu_favorlist->addAction(action_favorlist_showfile);
 	menu_favorlist->addAction(action_favorlist_detail);
-    menu_favorlist->addAction(action_favor_to_playlist);
-    
-    //â€œæˆ‘çš„æ­Œå•â€åˆ—è¡¨å³é”®èœå•åˆå§‹åŒ–
-    ui->nameListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    QAction *action_namelist_delete=new QAction(QIcon(":/image/image/image/remove.png"),u8"åˆ é™¤");
-    connect(action_namelist_delete,&QAction::triggered,this,&MainWidget::namelist_delete);
-    menu_namelist=new QMenu(this);
-    menu_namelist->addAction(action_namelist_delete);
-    
-    //æ­Œå•å±•ç¤ºåˆ—è¡¨å³é”®èœå•åˆå§‹åŒ–
-    ui->musicListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
-    QAction *action_musiclist_delete = new QAction(QIcon(":/image/image/image/remove.png"), u8"ç§»é™¤");
-    connect(action_musiclist_delete, &QAction::triggered, this, &MainWidget::musiclist_removeMusic);
-    QAction *action_musiclist_showfile = new QAction(QIcon(":/image/image/image/music-dir.png"), u8"æ‰“å¼€æ‰€åœ¨æ–‡ä»¶å¤¹");
-    connect(action_musiclist_showfile, &QAction::triggered, ui->musicListWidget, &MusicListWidget::showInExplorer);
-    QAction *action_musiclist_detail = new QAction(QIcon(":/image/image/image/detail.png"), u8"æ­Œæ›²è¯¦æƒ…");
-    connect(action_musiclist_detail, &QAction::triggered, ui->musicListWidget, &MusicListWidget::detail);
-    QAction *action_musiclist_to_favor = new QAction(QIcon(":/image/image/image/To-like.png"), u8"æ·»åŠ åˆ°æˆ‘å–œæ¬¢");
-    connect(action_musiclist_to_favor, &QAction::triggered, this, &MainWidget::musiclist_to_favor);
-    QAction *action_musiclist_to_playlist = new QAction(QIcon(":/image/image/image/To-playlist.png"), u8"æ·»åŠ åˆ°å½“å‰æ’­æ”¾åˆ—è¡¨");
-    connect(action_musiclist_to_playlist, &QAction::triggered, this, &MainWidget::musiclist_to_playlist);
-    menu_musiclist = new QMenu(this);
-    menu_musiclist->addAction(action_musiclist_delete);
-    menu_musiclist->addAction(action_musiclist_showfile);
-    menu_musiclist->addAction(action_musiclist_detail);
-    menu_musiclist->addAction(action_musiclist_to_favor);
-    menu_musiclist->addAction(action_musiclist_to_playlist);
+	menu_favorlist->addAction(action_favor_to_playlist);
 
-    //â€œæ¢è‚¤â€çš„èœå•é¡¹
-    QAction *action_backgroud_to_default = new QAction(QIcon(":/image/image/image/default.png"),u8"æ›´æ¢åˆ°é»˜è®¤èƒŒæ™¯");
-	connect(action_backgroud_to_default,&QAction::triggered,this,&MainWidget::background_to_default);
-    QAction *action_backgroud_setting=new QAction(QIcon(":/image/image/image/setting.png"),u8"è‡ªå®šä¹‰èƒŒæ™¯");
-    connect(action_backgroud_setting,&QAction::triggered,this,&MainWidget::background_setting);
-    menu_changeSkin=new QMenu(this);
-    menu_changeSkin->addAction(action_backgroud_to_default);
-    menu_changeSkin->addAction(action_backgroud_setting);
+	//¡°ÎÒµÄ¸èµ¥¡±ÁĞ±íÓÒ¼ü²Ëµ¥³õÊ¼»¯
+	ui->nameListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+	QAction* action_namelist_delete = new QAction(QIcon(":/image/image/image/remove.png"), u8"É¾³ı");
+	connect(action_namelist_delete, &QAction::triggered, this, &MainWidget::namelist_delete);
+	menu_namelist = new QMenu(this);
+	menu_namelist->addAction(action_namelist_delete);
+
+	//¸èµ¥Õ¹Ê¾ÁĞ±íÓÒ¼ü²Ëµ¥³õÊ¼»¯
+	ui->musicListWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+	QAction* action_musiclist_delete = new QAction(QIcon(":/image/image/image/remove.png"), u8"ÒÆ³ı");
+	connect(action_musiclist_delete, &QAction::triggered, this, &MainWidget::musiclist_removeMusic);
+	QAction* action_musiclist_showfile = new QAction(QIcon(":/image/image/image/music-dir.png"), u8"´ò¿ªËùÔÚÎÄ¼ş¼Ğ");
+	connect(action_musiclist_showfile, &QAction::triggered, ui->musicListWidget, &MusicListWidget::showInExplorer);
+	QAction* action_musiclist_detail = new QAction(QIcon(":/image/image/image/detail.png"), u8"¸èÇúÏêÇé");
+	connect(action_musiclist_detail, &QAction::triggered, ui->musicListWidget, &MusicListWidget::detail);
+	QAction* action_musiclist_to_favor = new QAction(QIcon(":/image/image/image/To-like.png"), u8"Ìí¼Óµ½ÎÒÏ²»¶");
+	connect(action_musiclist_to_favor, &QAction::triggered, this, &MainWidget::musiclist_to_favor);
+	QAction* action_musiclist_to_playlist = new QAction(QIcon(":/image/image/image/To-playlist.png"), u8"Ìí¼Óµ½µ±Ç°²¥·ÅÁĞ±í");
+	connect(action_musiclist_to_playlist, &QAction::triggered, this, &MainWidget::musiclist_to_playlist);
+	menu_musiclist = new QMenu(this);
+	menu_musiclist->addAction(action_musiclist_delete);
+	menu_musiclist->addAction(action_musiclist_showfile);
+	menu_musiclist->addAction(action_musiclist_detail);
+	menu_musiclist->addAction(action_musiclist_to_favor);
+	menu_musiclist->addAction(action_musiclist_to_playlist);
+
+	//¡°»»·ô¡±µÄ²Ëµ¥Ïî
+	QAction* action_backgroud_to_default = new QAction(QIcon(":/image/image/image/default.png"), u8"¸ü»»µ½Ä¬ÈÏ±³¾°");
+	connect(action_backgroud_to_default, &QAction::triggered, this, &MainWidget::background_to_default);
+	QAction* action_backgroud_setting = new QAction(QIcon(":/image/image/image/setting.png"), u8"×Ô¶¨Òå±³¾°");
+	connect(action_backgroud_setting, &QAction::triggered, this, &MainWidget::background_setting);
+	menu_changeSkin = new QMenu(this);
+	menu_changeSkin->addAction(action_backgroud_to_default);
+	menu_changeSkin->addAction(action_backgroud_setting);
 }
 
 void MainWidget::init_sqlite()
 {
-    QSqlDatabase database;
-    if (QSqlDatabase::contains("qt_sql_default_connection"))
-    {
-        database = QSqlDatabase::database("qt_sql_default_connection");
-    }
-    else
-    {
-        database = QSqlDatabase::addDatabase("QSQLITE");
-        database.setDatabaseName("Music.db");
-        database.setUserName("NJUTang");
-        database.setPassword("123456");
-        if (!database.open())
-        {
-            QMessageBox::critical(this,"æ— æ³•æ‰“å¼€æ•°æ®åº“æ–‡ä»¶ï¼šMusic.db",database.lastError().databaseText());
-            exit(-1);
-        }
-    }
-    //æ£€æŸ¥ä¸¤ä¸ªè¡¨æ˜¯å¦å­˜åœ¨ï¼Œä¸å­˜åœ¨åˆ™åˆ›å»ºä¸å­˜åœ¨çš„è¡¨
-    QSqlQuery query;
-    query.exec(QString("select count(*) from sqlite_master where type='table' and name='%1'").arg("MusicInfo"));
-    if(query.next()){
-        if(query.value(0).toInt()==0){
-            QSqlQuery sql_query;
-            //QString create_sql = "create table MusicInfo (id int primary key, name varchar(30), url varchar(200), author varchar(50), title varchar(50), duration bigint, albumTitle varchar(50), audioBitRate int)";
-            QString create_sql = "create table MusicInfo (name varchar(30), url varchar(200), author varchar(50), title varchar(50), duration bigint, albumTitle varchar(50), audioBitRate int)";
-            sql_query.prepare(create_sql);
-            sql_query.exec();
-        }        
-    }
-    QSqlQuery query2;
-    query2.exec(QString("select count(*) from sqlite_master where type='table' and name='%1'").arg("MusicLists"));
-    if(query2.next()){
-        if(query2.value(0).toInt()==0){
-            QSqlQuery sql_query;
-            QString create_sql = "create table MusicLists (name varchar(30))";
-            sql_query.prepare(create_sql);
-            sql_query.exec();
-        }        
-    }
+	QSqlDatabase database;
+	if (QSqlDatabase::contains("qt_sql_default_connection"))
+	{
+		database = QSqlDatabase::database("qt_sql_default_connection");
+	}
+	else
+	{
+		database = QSqlDatabase::addDatabase("QSQLITE");
+		database.setDatabaseName("Music.db");
+		database.setUserName("NJUTang");
+		database.setPassword("123456");
+		if (!database.open())
+		{
+			QMessageBox::critical(this, "ÎŞ·¨´ò¿ªÊı¾İ¿âÎÄ¼ş£ºMusic.db", database.lastError().databaseText());
+			exit(-1);
+		}
+	}
+	//¼ì²éÁ½¸ö±íÊÇ·ñ´æÔÚ£¬²»´æÔÚÔò´´½¨²»´æÔÚµÄ±í
+	QSqlQuery query;
+	query.exec(QString("select count(*) from sqlite_master where type='table' and name='%1'").arg("MusicInfo"));
+	if (query.next()) {
+		if (query.value(0).toInt() == 0) {
+			QSqlQuery sql_query;
+			//QString create_sql = "create table MusicInfo (id int primary key, name varchar(30), url varchar(200), author varchar(50), title varchar(50), duration bigint, albumTitle varchar(50), audioBitRate int)";
+			QString create_sql = "create table MusicInfo (name varchar(30), url varchar(200), author varchar(50), title varchar(50), duration bigint, albumTitle varchar(50), audioBitRate int)";
+			sql_query.prepare(create_sql);
+			sql_query.exec();
+		}
+	}
+	QSqlQuery query2;
+	query2.exec(QString("select count(*) from sqlite_master where type='table' and name='%1'").arg("MusicLists"));
+	if (query2.next()) {
+		if (query2.value(0).toInt() == 0) {
+			QSqlQuery sql_query;
+			QString create_sql = "create table MusicLists (name varchar(30))";
+			sql_query.prepare(create_sql);
+			sql_query.exec();
+		}
+	}
 }
 
 void MainWidget::init_musicList()
 {
-    //æœ¬åœ°éŸ³ä¹ åˆå§‹åŒ–
-    ui->localMusicWidget->musicList.setName("LocalMusic");
-    ui->localMusicWidget->musicList.read_fromSQL();
-    ui->localMusicWidget->refresh();
-    //æˆ‘å–œæ¬¢ åˆå§‹åŒ–
-    ui->favorMusicWidget->musicList.setName("FavorMusic");
-    ui->favorMusicWidget->musicList.read_fromSQL();
-    ui->favorMusicWidget->refresh();
-    
-    //ä»æ•°æ®åº“ä¸­æ¢å¤æ­Œå•
-    QSqlQuery sql_query;
-    QString select_sql = "select name from MusicLists";
-    sql_query.prepare(select_sql);
-    if(sql_query.exec())
-    {
-        while(sql_query.next())
-        {    
-            QString musicListName=sql_query.value(0).toString();
-            MusicList tempList;
-            tempList.setName(musicListName);
-            tempList.read_fromSQL();
-            musiclist.push_back(tempList);
-        }  
-    }
-    namelist_refresh();
+	//±¾µØÒôÀÖ ³õÊ¼»¯
+	ui->localMusicWidget->musicList.setName("LocalMusic");
+	ui->localMusicWidget->musicList.read_fromSQL();
+	ui->localMusicWidget->refresh();
+	//ÎÒÏ²»¶ ³õÊ¼»¯
+	ui->favorMusicWidget->musicList.setName("FavorMusic");
+	ui->favorMusicWidget->musicList.read_fromSQL();
+	ui->favorMusicWidget->refresh();
+
+	//´ÓÊı¾İ¿âÖĞ»Ö¸´¸èµ¥
+	QSqlQuery sql_query;
+	QString select_sql = "select name from MusicLists";
+	sql_query.prepare(select_sql);
+	if (sql_query.exec())
+	{
+		while (sql_query.next())
+		{
+			QString musicListName = sql_query.value(0).toString();
+			MusicList tempList;
+			tempList.setName(musicListName);
+			tempList.read_fromSQL();
+			musiclist.push_back(tempList);
+		}
+	}
+	namelist_refresh();
 }
 
 void MainWidget::namelist_refresh()
 {
-    //å…ˆæ¸…ç©º
-    QSqlQuery sql_query;
-    QString delete_sql = "delete from MusicLists";
-    sql_query.prepare(delete_sql);
-    sql_query.exec();
-    for(size_t i=0;i<musiclist.size();i++){
-        QSqlQuery sql_query2;
-        QString insert_sql = "insert into MusicLists values (?)";
-        sql_query2.prepare(insert_sql);
-        sql_query2.addBindValue(musiclist[i].getName());
-        sql_query2.exec();    
-    }
-    //å±•ç¤ºåˆ—è¡¨åˆ·æ–°
-    ui->nameListWidget->clear();
-    for(size_t i=0;i<musiclist.size();i++){
-        QListWidgetItem *item = new QListWidgetItem;
-        item->setIcon(QIcon(":/image/image/image/music_list.png"));
-        item->setText(musiclist[i].getName());
-        ui->nameListWidget->addItem(item);  
-    }
+	//ÏÈÇå¿Õ
+	QSqlQuery sql_query;
+	QString delete_sql = "delete from MusicLists";
+	sql_query.prepare(delete_sql);
+	sql_query.exec();
+	for (size_t i = 0; i < musiclist.size(); i++) {
+		QSqlQuery sql_query2;
+		QString insert_sql = "insert into MusicLists values (?)";
+		sql_query2.prepare(insert_sql);
+		sql_query2.addBindValue(musiclist[i].getName());
+		sql_query2.exec();
+	}
+	//Õ¹Ê¾ÁĞ±íË¢ĞÂ
+	ui->nameListWidget->clear();
+	for (size_t i = 0; i < musiclist.size(); i++) {
+		QListWidgetItem* item = new QListWidgetItem;
+		item->setIcon(QIcon(":/image/image/image/music_list.png"));
+		item->setText(musiclist[i].getName());
+		ui->nameListWidget->addItem(item);
+	}
 }
 
 void MainWidget::init_settings()
 {
-    QSettings mysettings("./LightMusicPlayer.ini",QSettings::IniFormat);
-    mysettings.setIniCodec("UTF8");
-    QString fileName = mysettings.value("background/image-url").toString();
-    QImage testImage(fileName);
-    if(!fileName.isEmpty()&&!testImage.isNull())
-    {
-        setStyleSheet(QString("QWidget#Widget{"
-                              "border-radius:10px;"
-                              "border-image: url(%1);}").arg(fileName));
-    }else{
-        fileName=":/image/image/background/default.jpg";
-        QSettings mysettings("./LightMusicPlayer.ini",QSettings::IniFormat);
-        mysettings.setIniCodec("UTF8");
-        mysettings.setValue("background/image-url",fileName);
-        setStyleSheet(QString("QWidget#Widget{"
-                              "border-radius:10px;"
-                              "border-image: url(%1);}").arg(fileName));
-    }
+	QSettings mysettings("./LightMusicPlayer.ini", QSettings::IniFormat);
+	mysettings.setIniCodec("UTF8");
+	QString fileName = mysettings.value("background/image-url").toString();
+	QImage testImage(fileName);
+	if (!fileName.isEmpty() && !testImage.isNull())
+	{
+		setStyleSheet(QString("QWidget#Widget{"
+			"border-radius:10px;"
+			"border-image: url(%1);}").arg(fileName));
+	}
+	else {
+		fileName = ":/image/image/background/default.jpg";
+		QSettings mysettings("./LightMusicPlayer.ini", QSettings::IniFormat);
+		mysettings.setIniCodec("UTF8");
+		mysettings.setValue("background/image-url", fileName);
+		setStyleSheet(QString("QWidget#Widget{"
+			"border-radius:10px;"
+			"border-image: url(%1);}").arg(fileName));
+	}
 }
 
 void MainWidget::musicListWidget_refresh()
 {
-    if(musiclist_index != -1){
-        ui->musicListNameLabel->setText(u8"æ­Œå• - "+musiclist[musiclist_index].getName());
-        ui->musicListWidget->setMusicList_playing(musiclist[musiclist_index]);
-    }
+	if (musiclist_index != -1) {
+		ui->musicListNameLabel->setText(u8"¸èµ¥ - " + musiclist[musiclist_index].getName());
+		ui->musicListWidget->setMusicList_playing(musiclist[musiclist_index]);
+	}
 }
 
-void MainWidget::on_playListWidget_customContextMenuRequested(const QPoint &pos)
+void MainWidget::on_playListWidget_customContextMenuRequested(const QPoint& pos)
 {
-    if(ui->playListWidget->itemAt(pos)==Q_NULLPTR)
-    {
-        return;
-    }
-    menu_playlist->exec(QCursor::pos());
+	if (ui->playListWidget->itemAt(pos) == Q_NULLPTR)
+	{
+		return;
+	}
+	menu_playlist->exec(QCursor::pos());
 }
 
 void MainWidget::playlist_removeMusic()
 {
-    int pos=ui->playListWidget->currentRow();
-    int playing_pos=playlist->currentIndex();
-    ui->playListWidget->removeMusic();
-    if(pos<playing_pos){
-        //ç§»é™¤å‰å¤‡ä»½
-        QMediaPlayer::State state=player->state();//è®°å½•ä¸‹åˆ é™¤å‰çš„æ’­æ”¾çŠ¶æ€
-        qint64 position_backup=player->position();
-        playing_pos=playing_pos-1;
-        playlist->removeMedia(pos);
-        //ç§»é™¤åæ¢å¤
-        playlist->setCurrentIndex(playing_pos);
-        player->setPosition(position_backup);
-        ui->positionSlider->setValue(position_backup);
-        if(state==QMediaPlayer::PlayingState){
-            player->play();
-        }else if(state==QMediaPlayer::PlayingState){
-            player->pause();
-        }
-    }else if(pos<playing_pos){
-        playlist->removeMedia(pos);
-        playlist->setCurrentIndex(pos);
-    }else{
-        playlist->removeMedia(pos);
-    }
+	int pos = ui->playListWidget->currentRow();
+	int playing_pos = playlist->currentIndex();
+	ui->playListWidget->removeMusic();
+	if (pos < playing_pos) {
+		//ÒÆ³ıÇ°±¸·İ
+		QMediaPlayer::State state = player->state();//¼ÇÂ¼ÏÂÉ¾³ıÇ°µÄ²¥·Å×´Ì¬
+		qint64 position_backup = player->position();
+		playing_pos = playing_pos - 1;
+		playlist->removeMedia(pos);
+		//ÒÆ³ıºó»Ö¸´
+		playlist->setCurrentIndex(playing_pos);
+		player->setPosition(position_backup);
+		ui->positionSlider->setValue(position_backup);
+		if (state == QMediaPlayer::PlayingState) {
+			player->play();
+		}
+		else if (state == QMediaPlayer::PlayingState) {
+			player->pause();
+		}
+	}
+	else if (pos < playing_pos) {
+		playlist->removeMedia(pos);
+		playlist->setCurrentIndex(pos);
+	}
+	else {
+		playlist->removeMedia(pos);
+	}
 }
 
 void MainWidget::play_to_favor()
 {
-    int pos=ui->playListWidget->currentRow();
-    ui->favorMusicWidget->musicList.addMusic(ui->playListWidget->musicList.getMusic(pos));
-    ui->favorMusicWidget->refresh();
+	int pos = ui->playListWidget->currentRow();
+	ui->favorMusicWidget->musicList.addMusic(ui->playListWidget->musicList.getMusic(pos));
+	ui->favorMusicWidget->refresh();
 }
 
 void MainWidget::local_to_favor()
 {
-    int pos=ui->localMusicWidget->currentRow();
-    ui->favorMusicWidget->musicList.addMusic(ui->localMusicWidget->musicList.getMusic(pos));
-    ui->favorMusicWidget->refresh();
+	int pos = ui->localMusicWidget->currentRow();
+	ui->favorMusicWidget->musicList.addMusic(ui->localMusicWidget->musicList.getMusic(pos));
+	ui->favorMusicWidget->refresh();
 }
 
 void MainWidget::local_to_playlist()
 {
-    int pos=ui->localMusicWidget->currentRow();
-    Music tempMusic=ui->localMusicWidget->musicList.getMusic(pos);
-    ui->playListWidget->musicList.addMusic(tempMusic);
-    ui->playListWidget->refresh();
-    //æ·»åŠ åˆ°æ’­æ”¾å™¨
-    playlist->addMedia(tempMusic.getUrl());
+	int pos = ui->localMusicWidget->currentRow();
+	Music tempMusic = ui->localMusicWidget->musicList.getMusic(pos);
+	ui->playListWidget->musicList.addMusic(tempMusic);
+	ui->playListWidget->refresh();
+	//Ìí¼Óµ½²¥·ÅÆ÷
+	playlist->addMedia(tempMusic.getUrl());
 }
 
 void MainWidget::favor_to_playlist()
 {
-    int pos=ui->favorMusicWidget->currentRow();
-    Music tempMusic=ui->favorMusicWidget->musicList.getMusic(pos);
-    ui->playListWidget->musicList.addMusic(tempMusic);
-    ui->playListWidget->refresh();
-    //æ·»åŠ åˆ°æ’­æ”¾å™¨
-    playlist->addMedia(tempMusic.getUrl());
+	int pos = ui->favorMusicWidget->currentRow();
+	Music tempMusic = ui->favorMusicWidget->musicList.getMusic(pos);
+	ui->playListWidget->musicList.addMusic(tempMusic);
+	ui->playListWidget->refresh();
+	//Ìí¼Óµ½²¥·ÅÆ÷
+	playlist->addMedia(tempMusic.getUrl());
 }
 
 void MainWidget::namelist_delete()
 {
-    int pos=ui->nameListWidget->currentRow();
-    musiclist[pos].remove_SQL_all();//å…ˆä»æ•°æ®åº“ä¸­åˆ é™¤æ­Œæ›²ä¿¡æ¯
-    //ç§»é™¤æ­Œå•
-    int i=0;
-    for(auto it=musiclist.begin();it!=musiclist.end();){
-        if(i==pos){
-            it= musiclist.erase(it);
-            break;
-        }
-        else{
-            it++;
-        }
-        i++;
-    }
-    namelist_refresh();
+	int pos = ui->nameListWidget->currentRow();
+	musiclist[pos].remove_SQL_all();//ÏÈ´ÓÊı¾İ¿âÖĞÉ¾³ı¸èÇúĞÅÏ¢
+	//ÒÆ³ı¸èµ¥
+	int i = 0;
+	for (auto it = musiclist.begin(); it != musiclist.end();) {
+		if (i == pos) {
+			it = musiclist.erase(it);
+			break;
+		}
+		else {
+			it++;
+		}
+		i++;
+	}
+	namelist_refresh();
 }
 
 void MainWidget::musiclist_removeMusic()
 {
-    int pos=ui->musicListWidget->currentRow();
-    musiclist[musiclist_index].removeMusic(pos);
-    musicListWidget_refresh();
+	int pos = ui->musicListWidget->currentRow();
+	musiclist[musiclist_index].removeMusic(pos);
+	musicListWidget_refresh();
 }
 
 void MainWidget::musiclist_to_favor()
 {
-    int pos=ui->musicListWidget->currentRow();
-    ui->favorMusicWidget->musicList.addMusic(musiclist[musiclist_index].getMusic(pos));
-    ui->favorMusicWidget->refresh();
+	int pos = ui->musicListWidget->currentRow();
+	ui->favorMusicWidget->musicList.addMusic(musiclist[musiclist_index].getMusic(pos));
+	ui->favorMusicWidget->refresh();
 }
 
 void MainWidget::musiclist_to_playlist()
 {
-    int pos=ui->musicListWidget->currentRow();
-    Music tempMusic=ui->musicListWidget->musicList.getMusic(pos);
-    ui->playListWidget->musicList.addMusic(tempMusic);
-    ui->playListWidget->refresh();
-    //æ·»åŠ åˆ°æ’­æ”¾å™¨
-    playlist->addMedia(tempMusic.getUrl());
+	int pos = ui->musicListWidget->currentRow();
+	Music tempMusic = ui->musicListWidget->musicList.getMusic(pos);
+	ui->playListWidget->musicList.addMusic(tempMusic);
+	ui->playListWidget->refresh();
+	//Ìí¼Óµ½²¥·ÅÆ÷
+	playlist->addMedia(tempMusic.getUrl());
 }
 
 void MainWidget::background_to_default()
 {
-    QString fileName=":/image/image/background/default.jpg";
-    QSettings mysettings("./LightMusicPlayer.ini",QSettings::IniFormat);
-    mysettings.setIniCodec("UTF8");
-    mysettings.setValue("background/image-url",fileName);
-    setStyleSheet(QString("QWidget#Widget{"
-                          "border-radius:10px;"
-                          "border-image: url(%1);}").arg(fileName));
+	QString fileName = ":/image/image/background/default.jpg";
+	QSettings mysettings("./LightMusicPlayer.ini", QSettings::IniFormat);
+	mysettings.setIniCodec("UTF8");
+	mysettings.setValue("background/image-url", fileName);
+	setStyleSheet(QString("QWidget#Widget{"
+		"border-radius:10px;"
+		"border-image: url(%1);}").arg(fileName));
 }
 
 void MainWidget::background_setting()
 {
-    //ä»é»˜è®¤å›¾ç‰‡ä½ç½®æ‰“å¼€æ–‡ä»¶é€‰æ‹©æ¡†
-    QString fileName=QFileDialog::getOpenFileName(this,("é€‰æ‹©è‡ªå®šä¹‰èƒŒæ™¯å›¾ç‰‡"),QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first(),u8"å›¾ç‰‡æ–‡ä»¶(*jpg *png)");
-    if(!fileName.isEmpty())
-    {
-        QImage testImage(fileName);
-        if(!testImage.isNull()){
-            QSettings mysettings("./LightMusicPlayer.ini",QSettings::IniFormat);
-            mysettings.setIniCodec("UTF8");
-            mysettings.setValue("background/image-url",fileName);
-            setStyleSheet(QString("QWidget#Widget{"
-                                  "border-radius:10px;"
-                                  "border-image: url(%1);}").arg(fileName));    
-        }
-    }
+	//´ÓÄ¬ÈÏÍ¼Æ¬Î»ÖÃ´ò¿ªÎÄ¼şÑ¡Ôñ¿ò
+	QString fileName = QFileDialog::getOpenFileName(this, ("Ñ¡Ôñ×Ô¶¨Òå±³¾°Í¼Æ¬"), QStandardPaths::standardLocations(QStandardPaths::PicturesLocation).first(), u8"Í¼Æ¬ÎÄ¼ş(*jpg *png)");
+	if (!fileName.isEmpty())
+	{
+		QImage testImage(fileName);
+		if (!testImage.isNull()) {
+			QSettings mysettings("./LightMusicPlayer.ini", QSettings::IniFormat);
+			mysettings.setIniCodec("UTF8");
+			mysettings.setValue("background/image-url", fileName);
+			setStyleSheet(QString("QWidget#Widget{"
+				"border-radius:10px;"
+				"border-image: url(%1);}").arg(fileName));
+		}
+	}
 }
 
-
-
-void MainWidget::on_localMusicWidget_customContextMenuRequested(const QPoint &pos)
+void MainWidget::on_localMusicWidget_customContextMenuRequested(const QPoint& pos)
 {
-    if(ui->localMusicWidget->itemAt(pos)==Q_NULLPTR)
-    {
-        return;
-    }
-    menu_locallist->exec(QCursor::pos());
+	if (ui->localMusicWidget->itemAt(pos) == Q_NULLPTR)
+	{
+		return;
+	}
+	menu_locallist->exec(QCursor::pos());
 }
 
-void MainWidget::on_favorMusicWidget_customContextMenuRequested(const QPoint &pos)
+void MainWidget::on_favorMusicWidget_customContextMenuRequested(const QPoint& pos)
 {
-    if(ui->favorMusicWidget->itemAt(pos)==Q_NULLPTR)
-    {
-        return;
-    }
-    menu_favorlist->exec(QCursor::pos());
+	if (ui->favorMusicWidget->itemAt(pos) == Q_NULLPTR)
+	{
+		return;
+	}
+	menu_favorlist->exec(QCursor::pos());
 }
 
-void MainWidget::on_nameListWidget_customContextMenuRequested(const QPoint &pos)
+void MainWidget::on_nameListWidget_customContextMenuRequested(const QPoint& pos)
 {
-    if(ui->nameListWidget->itemAt(pos)==Q_NULLPTR)
-    {
-        return;
-    }
-    menu_namelist->exec(QCursor::pos());
+	if (ui->nameListWidget->itemAt(pos) == Q_NULLPTR)
+	{
+		return;
+	}
+	menu_namelist->exec(QCursor::pos());
 }
-
 
 QString formatTime(qint64 timeMilliSeconds)
 {
-    qint64 seconds = timeMilliSeconds / 1000;
-    const qint64 minutes = seconds / 60;
-    seconds -= minutes * 60;
-    return QStringLiteral("%1:%2")
-        .arg(minutes, 2, 10, QLatin1Char('0'))
-        .arg(seconds, 2, 10, QLatin1Char('0'));
+	qint64 seconds = timeMilliSeconds / 1000;
+	const qint64 minutes = seconds / 60;
+	seconds -= minutes * 60;
+	return QStringLiteral("%1:%2")
+		.arg(minutes, 2, 10, QLatin1Char('0'))
+		.arg(seconds, 2, 10, QLatin1Char('0'));
 }
 
 void MainWidget::updatePosition(qint64 position)
 {
-    ui->positionSlider->setValue(static_cast<int>(position));
-    ui->positionLabel->setText(formatTime(position)+"/"+formatTime(player->duration()));
-    if(playlist->currentIndex()>=0)ui->lyricWidget->show(position);
+	ui->positionSlider->setValue(static_cast<int>(position));
+	ui->positionLabel->setText(formatTime(position) + "/" + formatTime(player->duration()));
+	if (playlist->currentIndex() >= 0)ui->lyricWidget->show(position);
 }
 
 void MainWidget::updateDuration(qint64 duration)
 {
-    ui->positionSlider->setRange(0, static_cast<int>(duration));
-    ui->positionSlider->setEnabled(static_cast<int>(duration) > 0);
-    if(!(static_cast<int>(duration) > 0)) {
-        //æ— éŸ³ä¹æ’­æ”¾æ—¶ï¼Œç•Œé¢å…ƒç´ 
-        ui->infoLabel->setText("KEEP CALM AND CARRY ON ...");
-        mySystemTray->setToolTip(u8"LightMusicPlayer Â· By NJU-TJL");
-        QImage image(":/image/image/image/non-music.png");
-        ui->coverLabel->setPixmap(QPixmap::fromImage(image));
-        ui->musicTitleLabel->setText("");
-        ui->musicAlbumLabel->setText("");
-        ui->musicAuthorLabel->setText("");
-        ui->lyricWidget->clear();
-    }
-    ui->positionSlider->setPageStep(static_cast<int>(duration) / 10);
+	ui->positionSlider->setRange(0, static_cast<int>(duration));
+	ui->positionSlider->setEnabled(static_cast<int>(duration) > 0);
+	if (!(static_cast<int>(duration) > 0)) {
+		//ÎŞÒôÀÖ²¥·ÅÊ±£¬½çÃæÔªËØ
+		ui->infoLabel->setText("KEEP CALM AND CARRY ON ...");
+		mySystemTray->setToolTip(u8"LightMusicPlayer ¡¤ By NJU-TJL");
+		QImage image(":/image/image/image/non-music.png");
+		ui->coverLabel->setPixmap(QPixmap::fromImage(image));
+		ui->musicTitleLabel->setText("");
+		ui->musicAlbumLabel->setText("");
+		ui->musicAuthorLabel->setText("");
+		ui->lyricWidget->clear();
+	}
+	ui->positionSlider->setPageStep(static_cast<int>(duration) / 10);
 }
 
 void MainWidget::setPosition(int position)
 {
-    // avoid seeking when the slider value change is triggered from updatePosition()
-    if (qAbs(player->position() - position) > 99)
-        player->setPosition(position);
+	// avoid seeking when the slider value change is triggered from updatePosition()
+	if (qAbs(player->position() - position) > 99)
+		player->setPosition(position);
 }
 
 void MainWidget::updateInfo()
 {
-    if (player->isMetaDataAvailable()) {
-        //è¿”å›å¯ç”¨MP3å…ƒæ•°æ®åˆ—è¡¨ï¼ˆè°ƒè¯•æ—¶å¯ä»¥æŸ¥çœ‹ï¼‰
-        QStringList listInfo_debug=player->availableMetaData();
-        //æ­Œæ›²ä¿¡æ¯
-        QString info="";
-        QString author = player->metaData(QStringLiteral("Author")).toStringList().join(",");
-        info.append(author);
-        QString title = player->metaData(QStringLiteral("Title")).toString();
-        QString albumTitle = player->metaData(QStringLiteral("AlbumTitle")).toString();
-        info.append(" - "+title);
-        info.append(" ["+formatTime(player->duration())+"]");
-        ui->infoLabel->setText(info);
-        mySystemTray->setToolTip("æ­£åœ¨æ’­æ”¾ï¼š"+info);
-        //å°é¢å›¾ç‰‡ï¼ˆåº”è·å–"ThumbnailImage" From: https://www.zhihu.com/question/36859497ï¼‰
-        QImage picImage= player->metaData(QStringLiteral("ThumbnailImage")).value<QImage>();
-        if(picImage.isNull()) picImage=QImage(":/image/image/image/non-music.png");
-        ui->coverLabel->setPixmap(QPixmap::fromImage(picImage));
-        ui->coverLabel->setScaledContents(true);
-        //æ”¹å˜æ­£åœ¨æ’­æ”¾æ­Œæ›²çš„å›¾æ ‡
-        for(int i=0;i<playlist->mediaCount();i++){
-            QListWidgetItem *p=ui->playListWidget->item(i);
-            p->setIcon(ui->playListWidget->getIcon());
-        }
-        int index=playlist->currentIndex();
-        QListWidgetItem *p=ui->playListWidget->item(index);
-        p->setIcon(QIcon(":/image/image/image/music-playing.png"));
-        
-        //æ­Œè¯ç•Œé¢æ˜¾ç¤ºçš„ä¿¡æ¯
-        ui->musicTitleLabel->setText(title);
-        ui->musicAlbumLabel->setText(u8"ä¸“è¾‘ï¼š"+albumTitle);
-        ui->musicAuthorLabel->setText(u8"æ­Œæ‰‹ï¼š"+author);
-        //è§£ææ­Œè¯
-        ui->lyricWidget->process(ui->playListWidget->musicList.music[index].getLyricFile());
-    }
+	if (player->isMetaDataAvailable()) {
+		//·µ»Ø¿ÉÓÃMP3ÔªÊı¾İÁĞ±í£¨µ÷ÊÔÊ±¿ÉÒÔ²é¿´£©
+		QStringList listInfo_debug = player->availableMetaData();
+		//¸èÇúĞÅÏ¢
+		QString info = "";
+		QString author = player->metaData(QStringLiteral("Author")).toStringList().join(",");
+		info.append(author);
+		QString title = player->metaData(QStringLiteral("Title")).toString();
+		QString albumTitle = player->metaData(QStringLiteral("AlbumTitle")).toString();
+		info.append(" - " + title);
+		info.append(" [" + formatTime(player->duration()) + "]");
+		ui->infoLabel->setText(info);
+		mySystemTray->setToolTip("ÕıÔÚ²¥·Å£º" + info);
+		//·âÃæÍ¼Æ¬£¨Ó¦»ñÈ¡"ThumbnailImage" From: https://www.zhihu.com/question/36859497£©
+		QImage picImage = player->metaData(QStringLiteral("ThumbnailImage")).value<QImage>();
+		if (picImage.isNull()) picImage = QImage(":/image/image/image/non-music.png");
+		ui->coverLabel->setPixmap(QPixmap::fromImage(picImage));
+		ui->coverLabel->setScaledContents(true);
+		//¸Ä±äÕıÔÚ²¥·Å¸èÇúµÄÍ¼±ê
+		for (int i = 0; i < playlist->mediaCount(); i++) {
+			QListWidgetItem* p = ui->playListWidget->item(i);
+			p->setIcon(ui->playListWidget->getIcon());
+		}
+		int index = playlist->currentIndex();
+		QListWidgetItem* p = ui->playListWidget->item(index);
+		p->setIcon(QIcon(":/image/image/image/music-playing.png"));
+
+		//¸è´Ê½çÃæÏÔÊ¾µÄĞÅÏ¢
+		ui->musicTitleLabel->setText(title);
+		ui->musicAlbumLabel->setText(u8"×¨¼­£º" + albumTitle);
+		ui->musicAuthorLabel->setText(u8"¸èÊÖ£º" + author);
+		//½âÎö¸è´Ê
+		ui->lyricWidget->process(ui->playListWidget->musicList.music[index].getLyricFile());
+	}
 }
 
 void MainWidget::updatePlayBtn()
 {
-    if(player->state()==QMediaPlayer::PlayingState)
-    {
-        ui->btnPlay->setStyleSheet(PlayStyle());
-        action_systemTray_play->setIcon(QIcon(":/image/image/image/pause2.png"));
-        action_systemTray_play->setText(u8"æš‚åœ");
-    }else{
-        ui->btnPlay->setStyleSheet(PaseStyle());
-        action_systemTray_play->setIcon(QIcon(":/image/image/image/play2.png"));
-        action_systemTray_play->setText(u8"æ’­æ”¾");
-    }
+	if (player->state() == QMediaPlayer::PlayingState)
+	{
+		ui->btnPlay->setStyleSheet(PlayStyle());
+		action_systemTray_play->setIcon(QIcon(":/image/image/image/pause2.png"));
+		action_systemTray_play->setText(u8"ÔİÍ£");
+	}
+	else {
+		ui->btnPlay->setStyleSheet(PaseStyle());
+		action_systemTray_play->setIcon(QIcon(":/image/image/image/play2.png"));
+		action_systemTray_play->setText(u8"²¥·Å");
+	}
 }
 
 void MainWidget::systemTrayIcon_activated(QSystemTrayIcon::ActivationReason reason)
 {
-    switch (reason) {
-    case QSystemTrayIcon::DoubleClick:
-        //æ˜¾/éšä¸»ç•Œé¢
-        if(isHidden()){
-            show();
-        }else{
-            hide();
-        }
-        break;
-    default:
-        break;
-    }
+	switch (reason) {
+	case QSystemTrayIcon::DoubleClick:
+		//ÏÔ/ÒşÖ÷½çÃæ
+		if (isHidden()) {
+			show();
+		}
+		else {
+			hide();
+		}
+		break;
+	default:
+		break;
+	}
 }
 
 void MainWidget::quitMusicPlayer()
 {
-    //é€€å‡ºåº”ç”¨
-    QCoreApplication::quit();
+	//ÍË³öÓ¦ÓÃ
+	QCoreApplication::quit();
 }
 
 void MainWidget::init_systemTrayIcon()
 {
-    mySystemTray=new QSystemTrayIcon(this);
-    mySystemTray->setIcon(QIcon(":/image/image/image/systemTrayIcon.png"));
-    mySystemTray->setToolTip(u8"LightMusicPlayer Â· By NJU-TJL");
-    connect(mySystemTray,&QSystemTrayIcon::activated,this,&MainWidget::systemTrayIcon_activated);
-    //æ·»åŠ èœå•é¡¹
-    QAction *action_systemTray_pre = new QAction(QIcon(":/image/image/image/pre2.png"), u8"ä¸Šä¸€é¦–");
-    connect(action_systemTray_pre, &QAction::triggered, this, &MainWidget::on_btnPre_clicked);
-    action_systemTray_play = new QAction(QIcon(":/image/image/image/play2.png"), u8"æ’­æ”¾");
-    connect(action_systemTray_play, &QAction::triggered, this, &MainWidget::on_btnPlay_clicked);
-    QAction *action_systemTray_next = new QAction(QIcon(":/image/image/image/next2.png"), u8"ä¸‹ä¸€é¦–");
-    connect(action_systemTray_next, &QAction::triggered, this, &MainWidget::on_btnNext_clicked);
-    action_systemTray_playmode = new QAction(QIcon(":/image/image/image/loop2.png"), u8"å¾ªç¯æ’­æ”¾");
-    connect(action_systemTray_playmode, &QAction::triggered, this, &MainWidget::on_btnPlayMode_clicked);
-    QAction *action_systemTray_quit = new QAction(QIcon(":/image/image/image/exit.png"), u8"é€€å‡ºåº”ç”¨");
-    connect(action_systemTray_quit, &QAction::triggered, this, &MainWidget::quitMusicPlayer);
-    
-    QMenu *pContextMenu = new QMenu(this);
-    pContextMenu->addAction(action_systemTray_pre);
-    pContextMenu->addAction(action_systemTray_play);
-    pContextMenu->addAction(action_systemTray_next);
-    pContextMenu->addAction(action_systemTray_playmode);
-    pContextMenu->addAction(action_systemTray_quit);
-    mySystemTray->setContextMenu(pContextMenu);
-    mySystemTray->show();
+	mySystemTray = new QSystemTrayIcon(this);
+	mySystemTray->setIcon(QIcon(":/image/image/image/systemTrayIcon.png"));
+	mySystemTray->setToolTip(u8"LightMusicPlayer ¡¤ By NJU-TJL");
+	connect(mySystemTray, &QSystemTrayIcon::activated, this, &MainWidget::systemTrayIcon_activated);
+	//Ìí¼Ó²Ëµ¥Ïî
+	QAction* action_systemTray_pre = new QAction(QIcon(":/image/image/image/pre2.png"), u8"ÉÏÒ»Ê×");
+	connect(action_systemTray_pre, &QAction::triggered, this, &MainWidget::on_btnPre_clicked);
+	action_systemTray_play = new QAction(QIcon(":/image/image/image/play2.png"), u8"²¥·Å");
+	connect(action_systemTray_play, &QAction::triggered, this, &MainWidget::on_btnPlay_clicked);
+	QAction* action_systemTray_next = new QAction(QIcon(":/image/image/image/next2.png"), u8"ÏÂÒ»Ê×");
+	connect(action_systemTray_next, &QAction::triggered, this, &MainWidget::on_btnNext_clicked);
+	action_systemTray_playmode = new QAction(QIcon(":/image/image/image/loop2.png"), u8"Ñ­»·²¥·Å");
+	connect(action_systemTray_playmode, &QAction::triggered, this, &MainWidget::on_btnPlayMode_clicked);
+	QAction* action_systemTray_quit = new QAction(QIcon(":/image/image/image/exit.png"), u8"ÍË³öÓ¦ÓÃ");
+	connect(action_systemTray_quit, &QAction::triggered, this, &MainWidget::quitMusicPlayer);
+
+	QMenu* pContextMenu = new QMenu(this);
+	pContextMenu->addAction(action_systemTray_pre);
+	pContextMenu->addAction(action_systemTray_play);
+	pContextMenu->addAction(action_systemTray_next);
+	pContextMenu->addAction(action_systemTray_playmode);
+	pContextMenu->addAction(action_systemTray_quit);
+	mySystemTray->setContextMenu(pContextMenu);
+	mySystemTray->show();
 }
 
-void MainWidget::mousePressEvent(QMouseEvent *event)
+void MainWidget::mousePressEvent(QMouseEvent* event)
 {
-    //å®ç°ç‚¹å‡»ç•Œé¢ä¸­æŸç‚¹ï¼ŒéŸ³é‡æ¡éšè—
-    int x=event->pos().x();
-    int y=event->pos().y();
-    int x_widget=ui->volumeSlider->geometry().x(); //æ³¨ï¼šè¿™é‡Œâ€œwigetâ€çš„åå­—æ˜¯è¦ä»UIæ–‡ä»¶ç¼–è¯‘åç”Ÿæˆçš„ui_xxx.hæ–‡ä»¶ä¸­å¾—çŸ¥ï¼ˆåœ¨UIå¸ƒå±€ä¸­çœ‹ä¸åˆ°ï¼‰
-    int y_widget=ui->volumeSlider->geometry().y();
-    int w=ui->volumeSlider->geometry().width();
-    int h=ui->volumeSlider->geometry().height();
-    if(!(x>=x_widget&&x<=x_widget+w && y>=y_widget&&y<=y_widget+h)){
-        ui->volumeSlider->hide();
-    }
-    
-    //è®°å½•çª—å£ç§»åŠ¨çš„åˆå§‹ä½ç½®
-    offset = event->globalPos() - pos();
-    event->accept();
+	//ÊµÏÖµã»÷½çÃæÖĞÄ³µã£¬ÒôÁ¿ÌõÒş²Ø
+	int x = event->pos().x();
+	int y = event->pos().y();
+	int x_widget = ui->volumeSlider->geometry().x(); //×¢£ºÕâÀï¡°wiget¡±µÄÃû×ÖÊÇÒª´ÓUIÎÄ¼ş±àÒëºóÉú³ÉµÄui_xxx.hÎÄ¼şÖĞµÃÖª£¨ÔÚUI²¼¾ÖÖĞ¿´²»µ½£©
+	int y_widget = ui->volumeSlider->geometry().y();
+	int w = ui->volumeSlider->geometry().width();
+	int h = ui->volumeSlider->geometry().height();
+	if (!(x >= x_widget && x <= x_widget + w && y >= y_widget && y <= y_widget + h)) {
+		ui->volumeSlider->hide();
+	}
+
+	//¼ÇÂ¼´°¿ÚÒÆ¶¯µÄ³õÊ¼Î»ÖÃ
+	offset = event->globalPos() - pos();
+	event->accept();
 }
 
-void MainWidget::mouseMoveEvent(QMouseEvent *event)
+void MainWidget::mouseMoveEvent(QMouseEvent* event)
 {
-    int x=event->pos().x();
-    int y=event->pos().y();
-    //æ³¨ï¼šè¿™é‡Œâ€œlayoutWidget1â€çš„åå­—æ˜¯è¦ä»UIæ–‡ä»¶ç¼–è¯‘åç”Ÿæˆçš„ui_xxx.hæ–‡ä»¶ä¸­å¾—çŸ¥ï¼ˆåœ¨UIå¸ƒå±€ä¸­çœ‹ä¸åˆ°ï¼‰
-    if((y<ui->titleLabel->geometry().height())&&(x<ui->layoutWidget1->geometry().x())){
-        move(event->globalPos() - offset);
-        event->accept();    
-        setCursor(Qt::ClosedHandCursor);
-    }
+	int x = event->pos().x();
+	int y = event->pos().y();
+	//×¢£ºÕâÀï¡°layoutWidget1¡±µÄÃû×ÖÊÇÒª´ÓUIÎÄ¼ş±àÒëºóÉú³ÉµÄui_xxx.hÎÄ¼şÖĞµÃÖª£¨ÔÚUI²¼¾ÖÖĞ¿´²»µ½£©
+	if ((y < ui->titleLabel->geometry().height()) && (x < ui->layoutWidget1->geometry().x())) {
+		move(event->globalPos() - offset);
+		event->accept();
+		setCursor(Qt::ClosedHandCursor);
+	}
 }
 
-void MainWidget::mouseReleaseEvent(QMouseEvent *event)
+void MainWidget::mouseReleaseEvent(QMouseEvent* event)
 {
-    offset = QPoint();
-    event->accept();
-    setCursor(Qt::ArrowCursor);
+	offset = QPoint();
+	event->accept();
+	setCursor(Qt::ArrowCursor);
 }
 
-void MainWidget::closeEvent(QCloseEvent *event)
+void MainWidget::closeEvent(QCloseEvent* event)
 {
-    //æœ€å°åŒ–åˆ°æ‰˜ç›˜
-    if(!mySystemTray->isVisible()){
-        mySystemTray->show();
-    }
-    hide();
-    event->ignore();
+	//×îĞ¡»¯µ½ÍĞÅÌ
+	if (!mySystemTray->isVisible()) {
+		mySystemTray->show();
+	}
+	hide();
+	event->ignore();
 }
 
-void MainWidget::dragEnterEvent(QDragEnterEvent *event)
+void MainWidget::dragEnterEvent(QDragEnterEvent* event)
 {
-    event->acceptProposedAction();
+	event->acceptProposedAction();
 }
 
-void MainWidget::dropEvent(QDropEvent *event)
+void MainWidget::dropEvent(QDropEvent* event)
 {
-    QList<QUrl> urls = event->mimeData()->urls();
-    ui->localMusicWidget->musicList.addMusic(urls);
-    ui->localMusicWidget->refresh();
-    ui->stackedWidget->setCurrentIndex(1);//åˆ‡æ¢åˆ°æœ¬åœ°éŸ³ä¹
-    
+	QList<QUrl> urls = event->mimeData()->urls();
+	ui->localMusicWidget->musicList.addMusic(urls);
+	ui->localMusicWidget->refresh();
+	ui->stackedWidget->setCurrentIndex(1);//ÇĞ»»µ½±¾µØÒôÀÖ
 }
 void MainWidget::on_btnQuit_clicked()
 {
-    close();
+	close();
 }
 
 void MainWidget::on_btnPlay_clicked()
 {
-    if(player->state()==QMediaPlayer::PlayingState)
-     {
-        player->pause();
-
-     }
-    else if(player->state()==QMediaPlayer::PausedState){
-
-        player->play();
-    }
-    else if(!playlist->isEmpty() && (player->state()==QMediaPlayer::StoppedState))
-    {
-        playlist->setCurrentIndex(0);
-        player->play();
-    }
+	if (player->state() == QMediaPlayer::PlayingState)
+	{
+		player->pause();
+	}
+	else if (player->state() == QMediaPlayer::PausedState) {
+		player->play();
+	}
+	else if (!playlist->isEmpty() && (player->state() == QMediaPlayer::StoppedState))
+	{
+		playlist->setCurrentIndex(0);
+		player->play();
+	}
 }
 
 void MainWidget::on_btnNext_clicked()
 {
-    playlist->next();
+	playlist->next();
 }
 
 void MainWidget::on_btnPre_clicked()
 {
-    playlist->previous();
+	playlist->previous();
 }
 
 void MainWidget::on_btnPlayMode_clicked()
 {
-    if(playlist->playbackMode()==QMediaPlaylist::Loop){
-        ui->btnPlayMode->setStyleSheet(RandomStyle());
-        ui->btnPlayMode->setToolTip(u8"éšæœºæ’­æ”¾");
-        action_systemTray_playmode->setIcon(QIcon(":/image/image/image/random2.png"));
-        action_systemTray_playmode->setText(u8"éšæœºæ’­æ”¾");
-        playlist->setPlaybackMode(QMediaPlaylist::Random);
-    }
-    else if(playlist->playbackMode()==QMediaPlaylist::Random){
-        ui->btnPlayMode->setStyleSheet(LoopOneStyle());
-        ui->btnPlayMode->setToolTip(u8"å•æ›²å¾ªç¯");
-        action_systemTray_playmode->setIcon(QIcon(":/image/image/image/loop-one2.png"));
-        action_systemTray_playmode->setText(u8"å•æ›²å¾ªç¯");
-        playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    }
-    else if(playlist->playbackMode()==QMediaPlaylist::CurrentItemInLoop){
-        ui->btnPlayMode->setStyleSheet(LoopStyle());
-        ui->btnPlayMode->setToolTip(u8"å¾ªç¯æ’­æ”¾");
-        action_systemTray_playmode->setIcon(QIcon(":/image/image/image/loop2.png"));
-        action_systemTray_playmode->setText(u8"å¾ªç¯æ’­æ”¾");
-        playlist->setPlaybackMode(QMediaPlaylist::Loop);
-    }
+	if (playlist->playbackMode() == QMediaPlaylist::Loop) {
+		ui->btnPlayMode->setStyleSheet(RandomStyle());
+		ui->btnPlayMode->setToolTip(u8"Ëæ»ú²¥·Å");
+		action_systemTray_playmode->setIcon(QIcon(":/image/image/image/random2.png"));
+		action_systemTray_playmode->setText(u8"Ëæ»ú²¥·Å");
+		playlist->setPlaybackMode(QMediaPlaylist::Random);
+	}
+	else if (playlist->playbackMode() == QMediaPlaylist::Random) {
+		ui->btnPlayMode->setStyleSheet(LoopOneStyle());
+		ui->btnPlayMode->setToolTip(u8"µ¥ÇúÑ­»·");
+		action_systemTray_playmode->setIcon(QIcon(":/image/image/image/loop-one2.png"));
+		action_systemTray_playmode->setText(u8"µ¥ÇúÑ­»·");
+		playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
+	}
+	else if (playlist->playbackMode() == QMediaPlaylist::CurrentItemInLoop) {
+		ui->btnPlayMode->setStyleSheet(LoopStyle());
+		ui->btnPlayMode->setToolTip(u8"Ñ­»·²¥·Å");
+		action_systemTray_playmode->setIcon(QIcon(":/image/image/image/loop2.png"));
+		action_systemTray_playmode->setText(u8"Ñ­»·²¥·Å");
+		playlist->setPlaybackMode(QMediaPlaylist::Loop);
+	}
 }
 
 void MainWidget::on_btnMin_clicked()
 {
-    showMinimized();//çª—å£æœ€å°åŒ–
+	showMinimized();//´°¿Ú×îĞ¡»¯
 }
 
 void MainWidget::on_btnAdd_clicked()
-{    
-    QFileDialog fileDialog(this);
-    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
-    fileDialog.setFileMode(QFileDialog::ExistingFiles);
-    fileDialog.setWindowTitle(tr("æ·»åŠ æœ¬åœ°éŸ³ä¹ï¼ˆæ³¨ï¼šè‡ªåŠ¨è¿‡æ»¤ï¼ŒæŒ‰ä¸‹\"Ctrl+A\"å…¨é€‰æ·»åŠ å³å¯ï¼›ä¸æ”¯æŒæ·»åŠ æ–‡ä»¶å¤¹ï¼‰"));
-    QStringList list;list<<"application/octet-stream";
-    fileDialog.setMimeTypeFilters(list);
-    fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MusicLocation).value(0, QDir::homePath()));
-    if (fileDialog.exec() == QDialog::Accepted){
-       QList<QUrl> urls=fileDialog.selectedUrls();
-       ui->localMusicWidget->musicList.addMusic(urls);
-       ui->localMusicWidget->refresh();
-       ui->stackedWidget->setCurrentIndex(1);//åˆ‡æ¢åˆ°æœ¬åœ°éŸ³ä¹
-    }
+{
+	QFileDialog fileDialog(this);
+	fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+	fileDialog.setFileMode(QFileDialog::ExistingFiles);
+	fileDialog.setWindowTitle(tr("Ìí¼Ó±¾µØÒôÀÖ£¨×¢£º×Ô¶¯¹ıÂË£¬°´ÏÂ\"Ctrl+A\"È«Ñ¡Ìí¼Ó¼´¿É£»²»Ö§³ÖÌí¼ÓÎÄ¼ş¼Ğ£©"));
+	QStringList list; list << "application/octet-stream";
+	fileDialog.setMimeTypeFilters(list);
+	fileDialog.setDirectory(QStandardPaths::standardLocations(QStandardPaths::MusicLocation).value(0, QDir::homePath()));
+	if (fileDialog.exec() == QDialog::Accepted) {
+		QList<QUrl> urls = fileDialog.selectedUrls();
+		ui->localMusicWidget->musicList.addMusic(urls);
+		ui->localMusicWidget->refresh();
+		ui->stackedWidget->setCurrentIndex(1);//ÇĞ»»µ½±¾µØÒôÀÖ
+	}
 }
-
 
 void MainWidget::on_btnVolume_clicked()
 {
-    if(ui->volumeSlider->isHidden()){
-        ui->volumeSlider->show();
-    }else{
-        ui->volumeSlider->hide();
-    }
+	if (ui->volumeSlider->isHidden()) {
+		ui->volumeSlider->show();
+	}
+	else {
+		ui->volumeSlider->hide();
+	}
 }
 
 void MainWidget::on_volumeSlider_valueChanged(int value)
 {
-    player->setVolume(value);
+	player->setVolume(value);
 }
 
 void MainWidget::on_btnAddMusicList_clicked()
 {
-    bool ok;
-    QString text=QInputDialog::getText(this,u8"æ–°å»ºæ­Œå•",u8"è¯·è¾“å…¥æ–°æ­Œå•çš„åå­—ï¼š",QLineEdit::Normal,"",&ok);
-    if(ok && !text.isEmpty()){
-        MusicList tempMusic;
-        tempMusic.setName(text);
-        musiclist.push_back(tempMusic);
-        namelist_refresh();
-    }
+	bool ok;
+	QString text = QInputDialog::getText(this, u8"ĞÂ½¨¸èµ¥", u8"ÇëÊäÈëĞÂ¸èµ¥µÄÃû×Ö£º", QLineEdit::Normal, "", &ok);
+	if (ok && !text.isEmpty()) {
+		MusicList tempMusic;
+		tempMusic.setName(text);
+		musiclist.push_back(tempMusic);
+		namelist_refresh();
+	}
 }
-
 
 void MainWidget::on_btnCurMusic_clicked()
 {
-    //åˆ‡æ¢åˆ°â€œå½“å‰æ’­æ”¾â€ç•Œé¢
-    ui->stackedWidget->setCurrentIndex(0);
+	//ÇĞ»»µ½¡°µ±Ç°²¥·Å¡±½çÃæ
+	ui->stackedWidget->setCurrentIndex(0);
 }
 void MainWidget::on_btnLocalMusic_clicked()
 {
-    //åˆ‡æ¢åˆ°â€œæœ¬åœ°éŸ³ä¹â€ç•Œé¢
-    ui->stackedWidget->setCurrentIndex(1);
+	//ÇĞ»»µ½¡°±¾µØÒôÀÖ¡±½çÃæ
+	ui->stackedWidget->setCurrentIndex(1);
 }
 void MainWidget::on_btnFavorMusic_clicked()
 {
-    //åˆ‡æ¢åˆ°â€œæˆ‘å–œæ¬¢â€ç•Œé¢
-    ui->stackedWidget->setCurrentIndex(2);
+	//ÇĞ»»µ½¡°ÎÒÏ²»¶¡±½çÃæ
+	ui->stackedWidget->setCurrentIndex(2);
 }
 
-void MainWidget::on_playListWidget_doubleClicked(const QModelIndex &index)
+void MainWidget::on_playListWidget_doubleClicked(const QModelIndex& index)
 {
-    int i=index.row();
-    playlist->setCurrentIndex(i);
-    player->play();
+	int i = index.row();
+	playlist->setCurrentIndex(i);
+	player->play();
 }
-void MainWidget::on_localMusicWidget_doubleClicked(const QModelIndex &index)
+void MainWidget::on_localMusicWidget_doubleClicked(const QModelIndex& index)
 {
-    playlist->clear();
-    ui->localMusicWidget->musicList.addToPlayList(playlist);
-    ui->playListWidget->setMusicList_playing(ui->localMusicWidget->musicList);
-    int i=index.row();
-    playlist->setCurrentIndex(i);
-    player->play();
-    ui->stackedWidget->setCurrentIndex(0);//è·³è½¬åˆ°å½“å‰æ’­æ”¾åˆ—è¡¨
+	playlist->clear();
+	ui->localMusicWidget->musicList.addToPlayList(playlist);
+	ui->playListWidget->setMusicList_playing(ui->localMusicWidget->musicList);
+	int i = index.row();
+	playlist->setCurrentIndex(i);
+	player->play();
+	ui->stackedWidget->setCurrentIndex(0);//Ìø×ªµ½µ±Ç°²¥·ÅÁĞ±í
 }
-void MainWidget::on_favorMusicWidget_doubleClicked(const QModelIndex &index)
+void MainWidget::on_favorMusicWidget_doubleClicked(const QModelIndex& index)
 {
-    playlist->clear();
-    ui->favorMusicWidget->musicList.addToPlayList(playlist);
-    ui->playListWidget->setMusicList_playing(ui->favorMusicWidget->musicList);
-    int i=index.row();
-    playlist->setCurrentIndex(i);
-    player->play();
-    ui->stackedWidget->setCurrentIndex(0);//è·³è½¬åˆ°å½“å‰æ’­æ”¾åˆ—è¡¨
+	playlist->clear();
+	ui->favorMusicWidget->musicList.addToPlayList(playlist);
+	ui->playListWidget->setMusicList_playing(ui->favorMusicWidget->musicList);
+	int i = index.row();
+	playlist->setCurrentIndex(i);
+	player->play();
+	ui->stackedWidget->setCurrentIndex(0);//Ìø×ªµ½µ±Ç°²¥·ÅÁĞ±í
 }
 
-void MainWidget::on_nameListWidget_doubleClicked(const QModelIndex &index)
+void MainWidget::on_nameListWidget_doubleClicked(const QModelIndex& index)
 {
-    ui->stackedWidget->setCurrentIndex(3);//è·³è½¬åˆ°æ­Œå•å†…å®¹åˆ—è¡¨
-    musiclist_index=index.row();
-    musicListWidget_refresh();
+	ui->stackedWidget->setCurrentIndex(3);//Ìø×ªµ½¸èµ¥ÄÚÈİÁĞ±í
+	musiclist_index = index.row();
+	musicListWidget_refresh();
 }
 
 void MainWidget::on_btnSkin_clicked()
 {
-    menu_changeSkin->exec(QCursor::pos());
+	menu_changeSkin->exec(QCursor::pos());
 }
 
 void MainWidget::on_btnAddtoMusicList_clicked()
 {
-    MusicListDialog *dialog=new MusicListDialog(this);
-    int num=ui->localMusicWidget->count();
-    bool *results=new bool[num];
-    dialog->setMusicList(ui->localMusicWidget->musicList,results);
-    if(dialog->exec()==QDialog::Accepted){
-        for(int i=0;i<num;i++){
-            if(results[i]){
-                musiclist[musiclist_index].addMusic(ui->localMusicWidget->musicList.getMusic(i));
-            }
-        }
-        musicListWidget_refresh();
-    }
-    delete []results;
+	MusicListDialog* dialog = new MusicListDialog(this);
+	int num = ui->localMusicWidget->count();
+	bool* results = new bool[num];
+	dialog->setMusicList(ui->localMusicWidget->musicList, results);
+	if (dialog->exec() == QDialog::Accepted) {
+		for (int i = 0; i < num; i++) {
+			if (results[i]) {
+				musiclist[musiclist_index].addMusic(ui->localMusicWidget->musicList.getMusic(i));
+			}
+		}
+		musicListWidget_refresh();
+	}
+	delete[]results;
 }
 
-void MainWidget::on_musicListWidget_doubleClicked(const QModelIndex &index)
+void MainWidget::on_musicListWidget_doubleClicked(const QModelIndex& index)
 {
-    playlist->clear();
-    musiclist[musiclist_index].addToPlayList(playlist);
-    ui->playListWidget->setMusicList_playing(musiclist[musiclist_index]);
-    int i=index.row();
-    playlist->setCurrentIndex(i);
-    player->play();
-    ui->stackedWidget->setCurrentIndex(0);//è·³è½¬åˆ°å½“å‰æ’­æ”¾åˆ—è¡¨
+	playlist->clear();
+	musiclist[musiclist_index].addToPlayList(playlist);
+	ui->playListWidget->setMusicList_playing(musiclist[musiclist_index]);
+	int i = index.row();
+	playlist->setCurrentIndex(i);
+	player->play();
+	ui->stackedWidget->setCurrentIndex(0);//Ìø×ªµ½µ±Ç°²¥·ÅÁĞ±í
 }
 
-void MainWidget::on_musicListWidget_customContextMenuRequested(const QPoint &pos)
+void MainWidget::on_musicListWidget_customContextMenuRequested(const QPoint& pos)
 {
-    if(ui->musicListWidget->itemAt(pos)==Q_NULLPTR)
-    {
-        return;
-    }
-    menu_musiclist->exec(QCursor::pos());
+	if (ui->musicListWidget->itemAt(pos) == Q_NULLPTR)
+	{
+		return;
+	}
+	menu_musiclist->exec(QCursor::pos());
 }
 
 void MainWidget::on_btnAddtoFavor_clicked()
 {
-    MusicListDialog *dialog=new MusicListDialog(this);
-    int num=ui->localMusicWidget->count();
-    bool *results=new bool[num];
-    dialog->setMusicList(ui->localMusicWidget->musicList,results);
-    if(dialog->exec()==QDialog::Accepted){
-        for(int i=0;i<num;i++){
-            if(results[i]){
-                ui->favorMusicWidget->musicList.addMusic(ui->localMusicWidget->musicList.getMusic(i));
-            }
-        }
-        ui->favorMusicWidget->refresh();
-    }
-    delete []results;
+	MusicListDialog* dialog = new MusicListDialog(this);
+	int num = ui->localMusicWidget->count();
+	bool* results = new bool[num];
+	dialog->setMusicList(ui->localMusicWidget->musicList, results);
+	if (dialog->exec() == QDialog::Accepted) {
+		for (int i = 0; i < num; i++) {
+			if (results[i]) {
+				ui->favorMusicWidget->musicList.addMusic(ui->localMusicWidget->musicList.getMusic(i));
+			}
+		}
+		ui->favorMusicWidget->refresh();
+	}
+	delete[]results;
 }
 
 void MainWidget::on_btnSortSinger_clicked()
 {
-    ui->localMusicWidget->musicList.sort_by(AUTHOR);
-    ui->localMusicWidget->refresh();
+	ui->localMusicWidget->musicList.sort_by(AUTHOR);
+	ui->localMusicWidget->refresh();
 }
 void MainWidget::on_btnSortTitle_clicked()
 {
-    ui->localMusicWidget->musicList.sort_by(TITLE);
-    ui->localMusicWidget->refresh();
+	ui->localMusicWidget->musicList.sort_by(TITLE);
+	ui->localMusicWidget->refresh();
 }
 void MainWidget::on_btnSortDuration_clicked()
 {
-    ui->localMusicWidget->musicList.sort_by(DURATION);
-    ui->localMusicWidget->refresh();
+	ui->localMusicWidget->musicList.sort_by(DURATION);
+	ui->localMusicWidget->refresh();
 }
 
 void MainWidget::on_btnSortSinger_2_clicked()
 {
-    ui->favorMusicWidget->musicList.sort_by(AUTHOR);
-    ui->favorMusicWidget->refresh();
+	ui->favorMusicWidget->musicList.sort_by(AUTHOR);
+	ui->favorMusicWidget->refresh();
 }
 void MainWidget::on_btnSortTitle_2_clicked()
 {
-    ui->favorMusicWidget->musicList.sort_by(TITLE);
-    ui->favorMusicWidget->refresh();
+	ui->favorMusicWidget->musicList.sort_by(TITLE);
+	ui->favorMusicWidget->refresh();
 }
 void MainWidget::on_btnSortDuration_2_clicked()
 {
-    ui->favorMusicWidget->musicList.sort_by(DURATION);
-    ui->favorMusicWidget->refresh();
+	ui->favorMusicWidget->musicList.sort_by(DURATION);
+	ui->favorMusicWidget->refresh();
 }
 
 void MainWidget::on_btnSortSinger_4_clicked()
 {
-    musiclist[musiclist_index].sort_by(AUTHOR);
-    musicListWidget_refresh();
+	musiclist[musiclist_index].sort_by(AUTHOR);
+	musicListWidget_refresh();
 }
 void MainWidget::on_btnSortTitle_4_clicked()
 {
-    musiclist[musiclist_index].sort_by(TITLE);
-    musicListWidget_refresh();
+	musiclist[musiclist_index].sort_by(TITLE);
+	musicListWidget_refresh();
 }
 void MainWidget::on_btnSortDuration_4_clicked()
 {
-    musiclist[musiclist_index].sort_by(DURATION);
-    musicListWidget_refresh();
+	musiclist[musiclist_index].sort_by(DURATION);
+	musicListWidget_refresh();
 }
 
 void MainWidget::on_btnNeaten_clicked()
 {
-    ui->localMusicWidget->musicList.neaten();
-    ui->localMusicWidget->refresh();
+	ui->localMusicWidget->musicList.neaten();
+	ui->localMusicWidget->refresh();
 }
 void MainWidget::on_btnNeaten_2_clicked()
 {
-    ui->favorMusicWidget->musicList.neaten();
-    ui->favorMusicWidget->refresh();
+	ui->favorMusicWidget->musicList.neaten();
+	ui->favorMusicWidget->refresh();
 }
 void MainWidget::on_btnNeaten_3_clicked()
 {
-    musiclist[musiclist_index].neaten();
-    musicListWidget_refresh();
+	musiclist[musiclist_index].neaten();
+	musicListWidget_refresh();
 }
 
 void MainWidget::on_btnTitle_clicked()
 {
-    on_btnAbout_clicked();
+	on_btnAbout_clicked();
 }
 
 void MainWidget::on_btnLyric_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(4);
+	ui->stackedWidget->setCurrentIndex(4);
 }
 
 void MainWidget::on_btnClear_clicked()
 {
-    QMessageBox::StandardButton btn;
-    btn = QMessageBox::question(this, "æç¤º", "æ­¤æ“ä½œä¸å¯é€†ï¼\nç¡®å®è¦æ¸…ç©ºå—?", QMessageBox::Yes|QMessageBox::No);
-    if (btn == QMessageBox::Yes) {
-        ui->playListWidget->musicList.clear();
-        ui->playListWidget->refresh();
-        playlist->clear();
-    }
+	//QMessageBox::StandardButton btn;
+	//btn = QMessageBox::question(this, "ÌáÊ¾", "´Ë²Ù×÷²»¿ÉÄæ£¡\nÈ·ÊµÒªÇå¿ÕÂğ?", QMessageBox::Yes|QMessageBox::No);
+	//if (btn == QMessageBox::Yes) {
+	//    ui->playListWidget->musicList.clear();
+	//    ui->playListWidget->refresh();
+	//    playlist->clear();
+	//}
+
+	QMessageBox::StandardButton btn;
+	btn = QMessageBox::question(this, u8"ÌáÊ¾", u8"´Ë²Ù×÷²»¿É»Ö¸´£¡\nÈ·¶¨ÒªÇå¿ÕÂğ£¿", QMessageBox::Yes | QMessageBox::No);
+	if (btn == QMessageBox::Yes)
+	{
+		ui->playListWidget->musicList.clear();
+		ui->playListWidget->refresh();
+		playlist->clear();
+	}
 }
 
 void MainWidget::on_btnClear_2_clicked()
 {
-    QMessageBox::StandardButton btn;
-    btn = QMessageBox::question(this, "æç¤º", "æ­¤æ“ä½œä¸å¯é€†ï¼\nç¡®å®è¦æ¸…ç©ºå—?", QMessageBox::Yes|QMessageBox::No);
-    if (btn == QMessageBox::Yes) {
-        ui->localMusicWidget->musicList.clear();
-        ui->localMusicWidget->refresh();
-    }
+	QMessageBox::StandardButton btn;
+	btn = QMessageBox::question(this, "ÌáÊ¾", "´Ë²Ù×÷²»¿ÉÄæ£¡\nÈ·ÊµÒªÇå¿ÕÂğ?", QMessageBox::Yes | QMessageBox::No);
+	if (btn == QMessageBox::Yes) {
+		ui->localMusicWidget->musicList.clear();
+		ui->localMusicWidget->refresh();
+	}
 }
 
 void MainWidget::on_btnClear_3_clicked()
 {
-    QMessageBox::StandardButton btn;
-    btn = QMessageBox::question(this, "æç¤º", "æ­¤æ“ä½œä¸å¯é€†ï¼\nç¡®å®è¦æ¸…ç©ºå—?", QMessageBox::Yes|QMessageBox::No);
-    if (btn == QMessageBox::Yes) {
-        ui->favorMusicWidget->musicList.clear();
-        ui->favorMusicWidget->refresh();
-    }
+	QMessageBox::StandardButton btn;
+	btn = QMessageBox::question(this, "ÌáÊ¾", "´Ë²Ù×÷²»¿ÉÄæ£¡\nÈ·ÊµÒªÇå¿ÕÂğ?", QMessageBox::Yes | QMessageBox::No);
+	if (btn == QMessageBox::Yes) {
+		ui->favorMusicWidget->musicList.clear();
+		ui->favorMusicWidget->refresh();
+	}
 }
 
 void MainWidget::on_btnClear_4_clicked()
 {
-    QMessageBox::StandardButton btn;
-    btn = QMessageBox::question(this, "æç¤º", "æ­¤æ“ä½œä¸å¯é€†ï¼\nç¡®å®è¦æ¸…ç©ºå—?", QMessageBox::Yes|QMessageBox::No);
-    if (btn == QMessageBox::Yes) {
-        musiclist[musiclist_index].clear();
-        musicListWidget_refresh();
-    }
+	//QMessageBox::StandardButton btn;
+	//btn = QMessageBox::question(this, "ÌáÊ¾", u8"´Ë²Ù×÷²»¿ÉÄæ£¡\nÈ·ÊµÒªÇå¿ÕÂğ?", QMessageBox::Yes|QMessageBox::No);
+	//if (btn == QMessageBox::Yes) {
+	//    musiclist[musiclist_index].clear();
+	//    musicListWidget_refresh();
+	//}
+
+	QMessageBox::StandardButton btn;
+	btn = QMessageBox::question(this, u8"ÌáÊ¾", u8"´Ë²Ù×÷²»¿É»Ö¸´£¡\nÈ·¶¨ÒªÇå¿ÕÂğ£¿", QMessageBox::Yes | QMessageBox::No);
+	if (btn == QMessageBox::Yes)
+	{
+		musiclist[musiclist_index].clear();
+		musicListWidget_refresh();
+	}
 }
 
 void MainWidget::on_btnAbout_clicked()
 {
-    QMessageBox::about(this,u8"å…³äº","LightMusicPlayer | ä¸€æ¬¾ç²¾è‡´å°å·§çš„æœ¬åœ°éŸ³ä¹æ’­æ”¾å™¨\n"
-                                   "ä½œè€…ï¼šNJU-TJL\n\n"
-                                   "ã€æ­Œè¯æ–‡ä»¶è¯´æ˜ã€‘éœ€è¦ä¸å¯¹åº”çš„æ­Œæ›²MP3åœ¨åŒç›®å½•ä¸”åŒåï¼ˆ.lryæ–‡ä»¶ï¼‰\n"
-                                   "ã€å¿«æ·é”®è¯´æ˜ã€‘\n"
-                                   "æ’­æ”¾/æš‚åœ  -  ç©ºæ ¼\n"
-                                   "ä¸Šä¸€æ›²/ä¸‹ä¸€æ›²  -  Alté”®+æ–¹å‘é”®â†/â†’\n"
-                                   "ã€æ·»åŠ æœ¬åœ°éŸ³ä¹ã€‘å¯ç›´æ¥æ‹–æ‹½è‡³è½¯ä»¶ç•Œé¢å†…æˆ–è€…ç‚¹å‡»æœ¬åœ°éŸ³ä¹ç•Œé¢çš„æ·»åŠ æŒ‰é’®ï¼ˆCtrlé”®+Oï¼‰\n"
-                                   "ã€éŸ³ä¹æ–‡ä»¶ç±»å‹ã€‘æ·»åŠ è¿‡ç¨‹ä¸­ä¼šè‡ªåŠ¨è¿‡æ»¤å¾—åˆ°å¯æ’­æ”¾çš„æ–‡ä»¶ç±»å‹ï¼ˆ.mp3/.flac/.mpgaæ–‡ä»¶ï¼‰ï¼Œæ‰€ä»¥æ·»åŠ æ—¶æ— éœ€è€ƒè™‘æ–‡ä»¶ç±»å‹ï¼Œä½¿ç”¨\"Ctrl+A\"é€‰æ‹©æ–‡ä»¶å¤¹å†…å…¨éƒ¨æ–‡ä»¶æ·»åŠ å³å¯\n"
-                                   "\næ³¨ï¼šé¼ æ ‡ç§»åŠ¨åˆ°ä¸è®¤è¯†çš„æŒ‰é’®ä¸Šï¼Œä¼šæœ‰è¯´æ˜å“¦~\n");
+	//QMessageBox::about(this,"¹ØÓÚ",QStringLiteral("LightMusicPlayer | Ò»¿î¾«ÖÂĞ¡ÇÉµÄ±¾µØÒôÀÖ²¥·ÅÆ÷\n"
+	//                               "×÷Õß£ºNJU-TJL\n\n"
+	//                               "¡¾¸è´ÊÎÄ¼şËµÃ÷¡¿ĞèÒªÓë¶ÔÓ¦µÄ¸èÇúMP3ÔÚÍ¬Ä¿Â¼ÇÒÍ¬Ãû£¨.lryÎÄ¼ş£©\n"
+	//                               "¡¾¿ì½İ¼üËµÃ÷¡¿\n"
+	//                               "²¥·Å/ÔİÍ£  -  ¿Õ¸ñ\n"
+	//                               "ÉÏÒ»Çú/ÏÂÒ»Çú  -  Alt¼ü+·½Ïò¼ü¡û/¡ú\n"
+	//                               "¡¾Ìí¼Ó±¾µØÒôÀÖ¡¿¿ÉÖ±½ÓÍÏ×§ÖÁÈí¼ş½çÃæÄÚ»òÕßµã»÷±¾µØÒôÀÖ½çÃæµÄÌí¼Ó°´Å¥£¨Ctrl¼ü+O£©\n"
+	//                               "¡¾ÒôÀÖÎÄ¼şÀàĞÍ¡¿Ìí¼Ó¹ı³ÌÖĞ»á×Ô¶¯¹ıÂËµÃµ½¿É²¥·ÅµÄÎÄ¼şÀàĞÍ£¨.mp3/.flac/.mpgaÎÄ¼ş£©£¬ËùÒÔÌí¼ÓÊ±ÎŞĞè¿¼ÂÇÎÄ¼şÀàĞÍ£¬Ê¹ÓÃ\"Ctrl+A\"Ñ¡ÔñÎÄ¼ş¼ĞÄÚÈ«²¿ÎÄ¼şÌí¼Ó¼´¿É\n"
+	//                               "\n×¢£ºÊó±êÒÆ¶¯µ½²»ÈÏÊ¶µÄ°´Å¥ÉÏ£¬»áÓĞËµÃ÷Å¶~\n"));
+
+	QMessageBox::about(this, u8"¹ØÓÚ", u8"ÇáÁ¿²¥·ÅÆ÷");
 }

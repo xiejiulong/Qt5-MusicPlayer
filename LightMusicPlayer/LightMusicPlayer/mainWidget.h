@@ -27,94 +27,94 @@ private:
     Ui::Widget *ui;
     void paintEvent(QPaintEvent *event) override;
     
-    //UIç»„ä»¶é¢å¤–çš„ä¸€äº›å¤„ç†
+    //UI×é¼ş¶îÍâµÄÒ»Ğ©´¦Àí
     void init_UI();
     
-    //å½“å‰æ’­æ”¾å™¨
+    //µ±Ç°²¥·ÅÆ÷
     QMediaPlayer *player;
-    //å½“å‰æ’­æ”¾åˆ—è¡¨
+    //µ±Ç°²¥·ÅÁĞ±í
     QMediaPlaylist *playlist;
-    //åˆå§‹åŒ–ä¸€äº›æˆå‘˜å˜é‡ä»¥åŠconnectè¿æ¥
+    //³õÊ¼»¯Ò»Ğ©³ÉÔ±±äÁ¿ÒÔ¼°connectÁ¬½Ó
     void init_play();
-    //æ›´æ–°æ’­æ”¾ä¿¡æ¯ç›¸å…³ï¼ˆè¿›åº¦ã€ä¿¡æ¯ç­‰ï¼‰
+    //¸üĞÂ²¥·ÅĞÅÏ¢Ïà¹Ø£¨½ø¶È¡¢ĞÅÏ¢µÈ£©
     void updatePosition(qint64 position);
     void updateDuration(qint64 duration);
     void setPosition(int position);
     void updateInfo();
     void updatePlayBtn();
     
-    //ç³»ç»Ÿæ‰˜ç›˜
+    //ÏµÍ³ÍĞÅÌ
     QSystemTrayIcon *mySystemTray;
     QAction *action_systemTray_play;
     QAction *action_systemTray_playmode;
-    //å“åº”ç³»ç»Ÿæ‰˜ç›˜çš„åŠ¨ä½œï¼ˆåŒå‡»ç­‰ï¼‰
+    //ÏìÓ¦ÏµÍ³ÍĞÅÌµÄ¶¯×÷£¨Ë«»÷µÈ£©
     void systemTrayIcon_activated(QSystemTrayIcon::ActivationReason reason);
-    //é€€å‡ºåº”ç”¨
+    //ÍË³öÓ¦ÓÃ
     void quitMusicPlayer();
-    //ç³»ç»Ÿæ‰˜ç›˜åˆå§‹åŒ–
+    //ÏµÍ³ÍĞÅÌ³õÊ¼»¯
     void init_systemTrayIcon();
     
-    //æ•°æ®åº“åˆå§‹åŒ–
+    //Êı¾İ¿â³õÊ¼»¯
     void init_sqlite();
-    //é…ç½®åˆå§‹åŒ–ï¼ˆé…ç½®æ–‡ä»¶è¯»å–ï¼‰
+    //ÅäÖÃ³õÊ¼»¯£¨ÅäÖÃÎÄ¼ş¶ÁÈ¡£©
     void init_settings();
-    //â€œæœ¬åœ°éŸ³ä¹â€ã€â€œæˆ‘å–œæ¬¢â€ç­‰æ­Œå•çš„åˆå§‹åŒ–
+    //¡°±¾µØÒôÀÖ¡±¡¢¡°ÎÒÏ²»¶¡±µÈ¸èµ¥µÄ³õÊ¼»¯
     void init_musicList();
     
-    //æ­Œå•
+    //¸èµ¥
     vector<MusicList> musiclist;
-    //ç”¨äºæ ‡è¯†ç°åœ¨å±•ç¤ºçš„æ˜¯å“ªä¸ªæ­Œå•
+    //ÓÃÓÚ±êÊ¶ÏÖÔÚÕ¹Ê¾µÄÊÇÄÄ¸ö¸èµ¥
     int musiclist_index=-1;
-    //æ›´æ–°å±•ç¤ºæ­Œå•åå­—çš„listwidget
+    //¸üĞÂÕ¹Ê¾¸èµ¥Ãû×ÖµÄlistwidget
     void namelist_refresh();
-    //ç”¨äºæ›´æ–°å±•ç¤ºæ­Œå•å†…å®¹çš„listwidget
+    //ÓÃÓÚ¸üĞÂÕ¹Ê¾¸èµ¥ÄÚÈİµÄlistwidget
     void musicListWidget_refresh();   
     
-    /*å³é”®èœå•*/
-    //èœå•é¡¹çš„åˆå§‹åŒ–
+    /*ÓÒ¼ü²Ëµ¥*/
+    //²Ëµ¥ÏîµÄ³õÊ¼»¯
     void init_actions();
-    //â€œå½“å‰æ’­æ”¾â€åˆ—è¡¨çš„å³é”®èœå•
+    //¡°µ±Ç°²¥·Å¡±ÁĞ±íµÄÓÒ¼ü²Ëµ¥
     QMenu *menu_playlist;
-    //â€œæœ¬åœ°éŸ³ä¹â€åˆ—è¡¨çš„å³é”®èœå•
+    //¡°±¾µØÒôÀÖ¡±ÁĞ±íµÄÓÒ¼ü²Ëµ¥
     QMenu *menu_locallist;
-    //â€œæˆ‘å–œæ¬¢â€åˆ—è¡¨çš„å³é”®èœå•
+    //¡°ÎÒÏ²»¶¡±ÁĞ±íµÄÓÒ¼ü²Ëµ¥
     QMenu *menu_favorlist;
-    //â€œæ­Œå•ååˆ—è¡¨â€çš„å³é”®èœå•
+    //¡°¸èµ¥ÃûÁĞ±í¡±µÄÓÒ¼ü²Ëµ¥
     QMenu *menu_namelist;
-    //â€œæ­Œå•å±•ç¤ºåˆ—è¡¨â€çš„å³é”®èœå•
+    //¡°¸èµ¥Õ¹Ê¾ÁĞ±í¡±µÄÓÒ¼ü²Ëµ¥
     QMenu *menu_musiclist;
-    //æ›´æ¢çš®è‚¤çš„èœå•
+    //¸ü»»Æ¤·ôµÄ²Ëµ¥
     QMenu *menu_changeSkin; 
 
 protected:
-    //çª—å£æ‹–åŠ¨æ—¶è®°å½•çš„èµ·å§‹ç‚¹
+    //´°¿ÚÍÏ¶¯Ê±¼ÇÂ¼µÄÆğÊ¼µã
     QPoint offset;
-    /*é‡å†™Widgetçš„ä¸€äº›æ–¹æ³•*/
-    //å®ç°çª—å£å¯æ‹–åŠ¨
+    /*ÖØĞ´WidgetµÄÒ»Ğ©·½·¨*/
+    //ÊµÏÖ´°¿Ú¿ÉÍÏ¶¯
     void mousePressEvent(QMouseEvent *event) override; 
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
-    //å…³é—­æ—¶ä¸é€€å‡ºï¼Œè€Œæ˜¯åˆ°ç³»ç»Ÿæ‰˜ç›˜
+    //¹Ø±ÕÊ±²»ÍË³ö£¬¶øÊÇµ½ÏµÍ³ÍĞÅÌ
     void closeEvent(QCloseEvent *event) override;
-    //æ‹–æ‹½æ–‡ä»¶è¿›å…¥
+    //ÍÏ×§ÎÄ¼ş½øÈë
     void dragEnterEvent(QDragEnterEvent* event) override;
     void dropEvent(QDropEvent* event) override;
 
 private slots:
-    /*éƒ¨åˆ†å³é”®èœå•é¡¹å¯¹åº”çš„æ“ä½œï¼ˆå³å¯¹åº”QActionè¿æ¥çš„æ§½å‡½æ•°ï¼‰*/
-    void playlist_removeMusic();//å½“å‰æ’­æ”¾åˆ—è¡¨-å³é”®èœå• ç§»é™¤æ­Œæ›²
-    void play_to_favor();//ä»å½“å‰æ’­æ”¾æ·»åŠ åˆ°æˆ‘å–œæ¬¢
-    void local_to_favor();//ä»æœ¬åœ°éŸ³ä¹æ·»åŠ åˆ°æˆ‘å–œæ¬¢
-    void local_to_playlist();//ä»æœ¬åœ°éŸ³ä¹æ·»åŠ åˆ°å½“å‰æ’­æ”¾åˆ—è¡¨
-    void favor_to_playlist();//ä»æˆ‘å–œæ¬¢æ·»åŠ åˆ°å½“å‰æ’­æ”¾åˆ—è¡¨
-    void namelist_delete();//ç§»é™¤æ­Œå•
-    void musiclist_removeMusic();//ä»æ­Œå•å±•ç¤ºåˆ—è¡¨ç§»é™¤æ­Œæ›²
-    void musiclist_to_favor();//ä»å½“å‰æ­Œå•æ·»åŠ åˆ°æˆ‘å–œæ¬¢
-    void musiclist_to_playlist();//ä»å½“å‰æ­Œå•æ·»åŠ åˆ°æ­£åœ¨æ’­æ”¾
-    void background_to_default();//æ¢åˆ°é»˜è®¤èƒŒæ™¯
-    void background_setting();//è‡ªå®šä¹‰èƒŒæ™¯
+    /*²¿·ÖÓÒ¼ü²Ëµ¥Ïî¶ÔÓ¦µÄ²Ù×÷£¨¼´¶ÔÓ¦QActionÁ¬½ÓµÄ²Ûº¯Êı£©*/
+    void playlist_removeMusic();//µ±Ç°²¥·ÅÁĞ±í-ÓÒ¼ü²Ëµ¥ ÒÆ³ı¸èÇú
+    void play_to_favor();//´Óµ±Ç°²¥·ÅÌí¼Óµ½ÎÒÏ²»¶
+    void local_to_favor();//´Ó±¾µØÒôÀÖÌí¼Óµ½ÎÒÏ²»¶
+    void local_to_playlist();//´Ó±¾µØÒôÀÖÌí¼Óµ½µ±Ç°²¥·ÅÁĞ±í
+    void favor_to_playlist();//´ÓÎÒÏ²»¶Ìí¼Óµ½µ±Ç°²¥·ÅÁĞ±í
+    void namelist_delete();//ÒÆ³ı¸èµ¥
+    void musiclist_removeMusic();//´Ó¸èµ¥Õ¹Ê¾ÁĞ±íÒÆ³ı¸èÇú
+    void musiclist_to_favor();//´Óµ±Ç°¸èµ¥Ìí¼Óµ½ÎÒÏ²»¶
+    void musiclist_to_playlist();//´Óµ±Ç°¸èµ¥Ìí¼Óµ½ÕıÔÚ²¥·Å
+    void background_to_default();//»»µ½Ä¬ÈÏ±³¾°
+    void background_setting();//×Ô¶¨Òå±³¾°
     
-    /*ä¸€äº›ç‚¹å‡»äº‹ä»¶çš„å“åº”ï¼ˆä½¿ç”¨.uiä¸­çš„éƒ¨ä»¶â€œè½¬åˆ°æ§½â€è‡ªåŠ¨ç”Ÿæˆï¼‰*/
+    /*Ò»Ğ©µã»÷ÊÂ¼şµÄÏìÓ¦£¨Ê¹ÓÃ.uiÖĞµÄ²¿¼ş¡°×ªµ½²Û¡±×Ô¶¯Éú³É£©*/
     void on_btnCurMusic_clicked();
     void on_btnLocalMusic_clicked();
     void on_btnFavorMusic_clicked();
@@ -141,17 +141,17 @@ private slots:
     void on_musicListWidget_doubleClicked(const QModelIndex &index);
     void on_musicListWidget_customContextMenuRequested(const QPoint &pos);
     void on_btnAddtoFavor_clicked();
-    void on_btnNeaten_clicked();//æ•´ç†æ­Œå•æŒ‰é’®
+    void on_btnNeaten_clicked();//ÕûÀí¸èµ¥°´Å¥
     void on_btnNeaten_2_clicked();
     void on_btnNeaten_3_clicked();
     void on_btnTitle_clicked();
     void on_btnLyric_clicked();
-    void on_btnClear_clicked();//æ¸…ç©º
+    void on_btnClear_clicked();//Çå¿Õ
     void on_btnClear_2_clicked();
     void on_btnClear_3_clicked();
     void on_btnClear_4_clicked();
     void on_btnAbout_clicked();
-    void on_btnSortSinger_clicked();//æ­Œå•æ’åº
+    void on_btnSortSinger_clicked();//¸èµ¥ÅÅĞò
     void on_btnSortTitle_clicked();
     void on_btnSortDuration_clicked();
     void on_btnSortSinger_2_clicked();

@@ -12,15 +12,15 @@ class MusicListDialog;
 class MusicListDialog : public QDialog
 {
     Q_OBJECT
-    //æ­Œæ›²æ•°é‡
+    //¸èÇúÊıÁ¿
     int num; 
-    //å­˜æ”¾æ­Œæ›²æ¡ç›®æ˜¯å¦è¢«é€‰æ‹©ï¼ˆç”¨äºè¿”å›é€‰æ‹©ç»“æœï¼‰
+    //´æ·Å¸èÇúÌõÄ¿ÊÇ·ñ±»Ñ¡Ôñ£¨ÓÃÓÚ·µ»ØÑ¡Ôñ½á¹û£©
     bool *selected_flag;
 public:
     explicit MusicListDialog(QWidget *parent = nullptr);
     ~MusicListDialog();
     
-    //è®¾å®šå¯¹è¯æ¡†å±•ç¤ºå‡ºçš„æ­Œå•ä»¥åŠé€‰æ‹©ç»“æœå­˜æ”¾çš„åœ°æ–¹
+    //Éè¶¨¶Ô»°¿òÕ¹Ê¾³öµÄ¸èµ¥ÒÔ¼°Ñ¡Ôñ½á¹û´æ·ÅµÄµØ·½
     void setMusicList(MusicList& ilist, bool *results);
     
 private slots:

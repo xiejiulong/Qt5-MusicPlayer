@@ -3,56 +3,58 @@
 #include <QString>
 #include <QUrl>
 
-//æ­Œæ›²ç±»
+
+//¸èÇúÀà
 class Music
 {
 private:
-    //æ­Œæ›²èµ„æºåœ°å€
-    QUrl url;
-    //æ­Œæ‰‹
-    QString author;
-    //æ­Œæ›²å
-    QString title;
-    //æ—¶é•¿
-    qint64 duration; 
-    //å”±ç‰‡é›†
-    QString albumTitle;
-    //æ¯”ç‰¹ç‡
-    int audioBitRate;
+	//¸èÇú×ÊÔ´µØÖ·
+	QUrl url;
+	//¸èÊÖ
+	QString author;
+	//¸èÇúÃû
+	QString title;
+	//Ê±³¤
+	qint64 duration;
+	//³ªÆ¬¼¯
+	QString albumTitle;
+	//±ÈÌØÂÊ
+	int audioBitRate;
 
-    //æ ¹æ®æ­Œæ›²urlè·å¾—æ­Œæ›²ä¿¡æ¯
-    void refreshInfo();
-    
-    friend class MusicCompare;
+	//¸ù¾İ¸èÇúurl»ñµÃ¸èÇúĞÅÏ¢
+	void refreshInfo();
+
+	friend class MusicCompare;
 public:
-    Music(){}
-    Music(QUrl iurl);
-    
-    //è¿”å›æ­Œæ›²Url
-    QUrl getUrl() const {return url;}
-    //è¿”å›æ­Œæ›²çš„ä¿¡æ¯
-    QString getInfo() const;
-    //å¼¹çª—æ˜¾ç¤ºæ­Œæ›²ä¿¡æ¯
-    void detail();
-    //å­˜å…¥æ•°æ®åº“
-    void insertSQL(const QString& name);
-    //æ ¹æ®æ–‡ä»¶åæ¥è·å–æ­Œè¯è·¯å¾„
-    QString getLyricFile();
-    
-    friend class MusicList;
+	Music() {}
+	Music(QUrl iurl);
+
+	//·µ»Ø¸èÇúUrl
+	QUrl getUrl() const { return url; }
+	//·µ»Ø¸èÇúµÄĞÅÏ¢
+	QString getInfo() const;
+	//µ¯´°ÏÔÊ¾¸èÇúĞÅÏ¢
+	void detail();
+	//´æÈëÊı¾İ¿â
+	void insertSQL(const QString& name);
+	//¸ù¾İÎÄ¼şÃûÀ´»ñÈ¡¸è´ÊÂ·¾¶
+	QString getLyricFile();
+
+	friend class MusicList;
 };
 
-//æ’åºçš„å¯é€‰å±æ€§
-enum COMPARE{DEFAULT,TITLE,AUTHOR,DURATION,EQUALITY};
 
-//ç”¨äºæ­Œæ›²æ’åºçš„å‡½æ•°å¯¹è±¡
+//ÅÅĞòµÄ¿ÉÑ¡ÊôĞÔ
+enum COMPARE { DEFAULT, TITLE, AUTHOR, DURATION, EQUALITY };
+
+//ÓÃÓÚ¸èÇúÅÅĞòµÄº¯Êı¶ÔÏó
 class MusicCompare
 {
-    COMPARE key;
+	COMPARE key;
 public:
-    MusicCompare(){key=DEFAULT;}
-    MusicCompare(COMPARE ikey){key=ikey;}
-    bool operator()(const Music& A, const Music& B);
+	MusicCompare() { key = DEFAULT; }
+	MusicCompare(COMPARE ikey) { key = ikey; }
+	bool operator()(const Music& A, const Music& B);
 };
 
 #endif // MUSIC_H

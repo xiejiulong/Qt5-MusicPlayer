@@ -1,85 +1,93 @@
-#include "Music.h"
+/*!
+ * \file Music.cpp
+ *
+ * \author xiejiulong
+ * \date 2021/06/18 16:22
+ *
+ * 
+ */
 #include <QMediaPlayer>
 #include <QCoreApplication>
 #include <QMessageBox>
 #include <QtSql>
+#include "Music.h"
 
 Music::Music(QUrl iurl)
 {
-    url=iurl;
-    refreshInfo();
+	url = iurl;
+	refreshInfo();
 }
 
 extern QString formatTime(qint64 timeMilliSeconds);
 void Music::refreshInfo()
 {
-    QMediaPlayer tempPlayer;
-    tempPlayer.setMedia(url);
-    //å…ƒæ•°æ®çš„è§£æéœ€è¦æ—¶é—´ï¼Œæ‰€ä»¥è¿™é‡Œéœ€è¦å¾ªç¯ç­‰å¾…ï¼ˆä½†åŒæ—¶éœ€è¦ä¿æŒQtäº‹ä»¶å¤„ç†æœºåˆ¶åœ¨è¿è¡Œï¼‰
-    while(!tempPlayer.isMetaDataAvailable()){
-        QCoreApplication::processEvents();
-    }
-    QStringList list=tempPlayer.availableMetaData();//è°ƒè¯•æ—¶æŸ¥çœ‹æœ‰å“ªäº›å…ƒæ•°æ®å¯ç”¨
-    if(tempPlayer.isMetaDataAvailable()){
-        //æ­Œæ›²ä¿¡æ¯
-        author = tempPlayer.metaData(QStringLiteral("Author")).toStringList().join(",");
-        //author = tempPlayer.metaData(QStringLiteral("Author")).toString(); //æŸ¥æ‰‹å†Œå‘ç°ï¼Œè¿™é‡Œè¿”å›çš„æ˜¯StringList
-        //author=tempPlayer.metaData(QStringLiteral("ContributingArtist")).toStringList().join(","); //å¦ä¸€ç§å…ƒæ•°æ®
-        title = tempPlayer.metaData(QStringLiteral("Title")).toString();
-        albumTitle = tempPlayer.metaData(QStringLiteral("AlbumTitle")).toString();
-        audioBitRate = tempPlayer.metaData(QStringLiteral("AudioBitRate")).toInt();
-        duration=tempPlayer.duration();
-    }
+	QMediaPlayer tempPlayer;
+	tempPlayer.setMedia(url);
+	//ÔªÊı¾İµÄ½âÎöĞèÒªÊ±¼ä£¬ËùÒÔÕâÀïĞèÒªÑ­»·µÈ´ı£¨µ«Í¬Ê±ĞèÒª±£³ÖQtÊÂ¼ş´¦Àí»úÖÆÔÚÔËĞĞ£©
+	while (!tempPlayer.isMetaDataAvailable()) {
+		QCoreApplication::processEvents();
+	}
+	QStringList list = tempPlayer.availableMetaData();//µ÷ÊÔÊ±²é¿´ÓĞÄÄĞ©ÔªÊı¾İ¿ÉÓÃ
+	if (tempPlayer.isMetaDataAvailable()) {
+		//¸èÇúĞÅÏ¢
+		author = tempPlayer.metaData(QStringLiteral("Author")).toStringList().join(",");
+		//author = tempPlayer.metaData(QStringLiteral("Author")).toString(); //²éÊÖ²á·¢ÏÖ£¬ÕâÀï·µ»ØµÄÊÇStringList
+		//author=tempPlayer.metaData(QStringLiteral("ContributingArtist")).toStringList().join(","); //ÁíÒ»ÖÖÔªÊı¾İ
+		title = tempPlayer.metaData(QStringLiteral("Title")).toString();
+		albumTitle = tempPlayer.metaData(QStringLiteral("AlbumTitle")).toString();
+		audioBitRate = tempPlayer.metaData(QStringLiteral("AudioBitRate")).toInt();
+		duration = tempPlayer.duration();
+	}
 }
 
 QString Music::getLyricFile()
 {
-    QString mp3FilePath=url.toLocalFile();
-    mp3FilePath.replace(".mp3",".lrc");
-    mp3FilePath.replace(".flac",".lrc");
-    mp3FilePath.replace(".mpga",".lrc");
-    return mp3FilePath;
+	QString mp3FilePath = url.toLocalFile();
+	mp3FilePath.replace(".mp3", ".lrc");
+	mp3FilePath.replace(".flac", ".lrc");
+	mp3FilePath.replace(".mpga", ".lrc");
+	return mp3FilePath;
 }
 
 QString Music::getInfo() const
 {
-    return author+" - "+title+" ["+formatTime(duration)+"]";
+	return author + " - " + title + " [" + formatTime(duration) + "]";
 }
 
 void Music::detail()
 {
-    QString info("æ­Œæ›²åï¼š%1\nè‰ºæœ¯å®¶ï¼š%2\næ—¶é•¿ï¼š%3\nå”±ç‰‡é›†ï¼š%4\næ¯”ç‰¹ç‡ï¼š%5\næ–‡ä»¶è·¯å¾„ï¼š%6");
-    info=info.arg(title,author,formatTime(duration),albumTitle,QString::number(audioBitRate)+"bps",url.toString());
-    QMessageBox::about(Q_NULLPTR,"æ­Œæ›²ä¿¡æ¯",info);
+	QString info("¸èÇúÃû£º%1\nÒÕÊõ¼Ò£º%2\nÊ±³¤£º%3\n³ªÆ¬¼¯£º%4\n±ÈÌØÂÊ£º%5\nÎÄ¼şÂ·¾¶£º%6");
+	info = info.arg(title, author, formatTime(duration), albumTitle, QString::number(audioBitRate) + "bps", url.toString());
+	QMessageBox::about(Q_NULLPTR, "¸èÇúĞÅÏ¢", info);
 }
 
-void Music::insertSQL(const QString &name)
+void Music::insertSQL(const QString& name)
 {
-    QSqlQuery sql_query;
-    QString insert_sql = "insert into MusicInfo values (?, ?, ?, ?, ?, ?, ?)";
-    sql_query.prepare(insert_sql);
-    sql_query.addBindValue(name);
-    sql_query.addBindValue(url.toString());
-    sql_query.addBindValue(author);
-    sql_query.addBindValue(title);
-    sql_query.addBindValue(duration);
-    sql_query.addBindValue(albumTitle);
-    sql_query.addBindValue(audioBitRate);
-    sql_query.exec();
+	QSqlQuery sql_query;
+	QString insert_sql = "insert into MusicInfo values (?, ?, ?, ?, ?, ?, ?)";
+	sql_query.prepare(insert_sql);
+	sql_query.addBindValue(name);
+	sql_query.addBindValue(url.toString());
+	sql_query.addBindValue(author);
+	sql_query.addBindValue(title);
+	sql_query.addBindValue(duration);
+	sql_query.addBindValue(albumTitle);
+	sql_query.addBindValue(audioBitRate);
+	sql_query.exec();
 }
 
-bool MusicCompare::operator()(const Music &A, const Music &B)
+bool MusicCompare::operator()(const Music& A, const Music& B)
 {
-    switch (key) {
-    case TITLE:
-        return A.title<B.title;
-    case AUTHOR:
-        return A.author<B.author;
-    case DURATION:
-        return A.duration<B.duration;
-    case EQUALITY:
-        return A.getUrl()==B.getUrl();
-    default:
-        return A.getInfo()<B.getInfo();
-    }
+	switch (key) {
+	case TITLE:
+		return A.title < B.title;
+	case AUTHOR:
+		return A.author < B.author;
+	case DURATION:
+		return A.duration < B.duration;
+	case EQUALITY:
+		return A.getUrl() == B.getUrl();
+	default:
+		return A.getInfo() < B.getInfo();
+	}
 }

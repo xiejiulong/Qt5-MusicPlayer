@@ -7,7 +7,7 @@
 #include<vector>
 using namespace std;
 
-//è¡¨ç¤ºä¸€è¡Œæ­Œè¯ï¼ˆä¸€ä¸ªæ—¶é—´ç‚¹+å¯¹åº”çš„æ­Œè¯æ–‡æœ¬ï¼‰
+//±íÊ¾Ò»ĞĞ¸è´Ê£¨Ò»¸öÊ±¼äµã+¶ÔÓ¦µÄ¸è´ÊÎÄ±¾£©
 class LyricLine
 {
 public:
@@ -26,21 +26,21 @@ class LyricWidget : public QWidget
 {
     Q_OBJECT
     
-    //å‚¨å­˜æ‰€æœ‰æ­Œè¯
+    //´¢´æËùÓĞ¸è´Ê
     vector<LyricLine> lines;    
 public:
     explicit LyricWidget(QWidget *parent = nullptr);
     ~LyricWidget();
 
-    //å°†æ­Œè¯æ–‡ä»¶çš„å†…å®¹å¤„ç†ä¸ºæ­Œè¯ç»“æ„çš„QList
+    //½«¸è´ÊÎÄ¼şµÄÄÚÈİ´¦ÀíÎª¸è´Ê½á¹¹µÄQList
     bool process(QString filePath); 
-    //æ ¹æ®æ—¶é—´æ‰¾åˆ°å¯¹åº”ä½ç½®çš„æ­Œè¯
+    //¸ù¾İÊ±¼äÕÒµ½¶ÔÓ¦Î»ÖÃµÄ¸è´Ê
     int getIndex(qint64 position);
-    //æ˜¾ç¤ºå½“å‰æ’­æ”¾è¿›åº¦çš„æ­Œè¯
+    //ÏÔÊ¾µ±Ç°²¥·Å½ø¶ÈµÄ¸è´Ê
     void show(qint64 position);
-    //æ ¹æ®ä¸‹æ ‡è·å¾—æ­Œè¯å†…å®¹
+    //¸ù¾İÏÂ±ê»ñµÃ¸è´ÊÄÚÈİ
     QString getLyricText(int index);
-    //æ¸…ç©ºæ­Œè¯Label
+    //Çå¿Õ¸è´ÊLabel
     void clear();
     
 private:

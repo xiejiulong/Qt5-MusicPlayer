@@ -8,7 +8,7 @@ MusicListWidget::MusicListWidget(QWidget *parent)
 
 void MusicListWidget::refresh()
 {
-    clear();//å…ˆæ¸…ç©º
+    clear();//ÏÈÇå¿Õ
     musicList.addToListWidget(this);    
 }
 
@@ -28,12 +28,12 @@ void MusicListWidget::setMusicList_playing(const MusicList &music)
 void MusicListWidget::removeMusic()
 {
     int pos=currentRow();    
-    //ç§»é™¤
+    //ÒÆ³ý
     musicList.removeMusic(pos);
-    //å®žæµ‹è¿™é‡Œå¦‚æžœç›´æŽ¥ä½¿ç”¨removeMediaä¼šå¯¼è‡´å½“å‰æ’­æ”¾çš„æ­Œæ›²ä¹±è·³...ï¼ˆæ‰€ä»¥è¿™é‡Œåªèƒ½ä»Žæ›´ä¸Šå±‚è°ƒç”¨çš„åœ°æ–¹æ¥ç§»é™¤æ­£åœ¨æ’­æ”¾çš„æ­Œæ›²ï¼‰
+    //Êµ²âÕâÀïÈç¹ûÖ±½ÓÊ¹ÓÃremoveMedia»áµ¼ÖÂµ±Ç°²¥·ÅµÄ¸èÇúÂÒÌø...£¨ËùÒÔÕâÀïÖ»ÄÜ´Ó¸üÉÏ²ãµ÷ÓÃµÄµØ·½À´ÒÆ³ýÕýÔÚ²¥·ÅµÄ¸èÇú£©
     //playlist->removeMedia(pos);
     
-    //ä»ŽListWidgetä¸­ç§»é™¤
+    //´ÓListWidgetÖÐÒÆ³ý
     QListWidgetItem *tempItem=takeItem(pos);
     removeItemWidget(tempItem);
     delete tempItem;

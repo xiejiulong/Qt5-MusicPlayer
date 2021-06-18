@@ -14,23 +14,23 @@ MusicList::MusicList(const QList<QUrl> &urls, QString iname)
 
 void MusicList::addMusic(const QList<QUrl> &urls)
 {
-    //å®æµ‹è¿™é‡Œè€—æ—¶è¾ƒé•¿ï¼Œæ‰€ä»¥æ·»åŠ ä¸€ä¸ªè¿›åº¦æ˜¾ç¤ºå¯¹è¯æ¡†
-    QProgressDialog proDialog(u8"æ·»åŠ è¿›åº¦",u8"å–æ¶ˆ",0,urls.size());
+    //Êµ²âÕâÀïºÄÊ±½Ï³¤£¬ËùÒÔÌí¼ÓÒ»¸ö½ø¶ÈÏÔÊ¾¶Ô»°¿ò
+    QProgressDialog proDialog(u8"Ìí¼Ó½ø¶È",u8"È¡Ïû",0,urls.size());
     proDialog.setMinimumSize(350,150);
     proDialog.setWindowModality(Qt::WindowModal);
-    proDialog.setWindowTitle("æ·»åŠ ä¸­...è¯·ç¨å");
+    proDialog.setWindowTitle("Ìí¼ÓÖĞ...ÇëÉÔºó");
     proDialog.show();
     int x=0;
     foreach (QUrl i, urls) {
         x++;
         proDialog.setValue(x);
-        //è¿‡æ»¤Urlçš„ç±»å‹
+        //¹ıÂËUrlµÄÀàĞÍ
         QMimeDatabase db;
         QMimeType mime = db.mimeTypeForFile(i.toLocalFile());
         if(mime.name()!="audio/mpeg"&&mime.name()!="audio/flac"){
             continue;
         }
-        //å‰©ä¸‹çš„ç¬¦åˆç±»å‹
+        //Ê£ÏÂµÄ·ûºÏÀàĞÍ
         music.push_back(Music(i));
         if(sql_flag){
             music[music.size()-1].insertSQL(name);
@@ -106,7 +106,7 @@ void MusicList::removeMusic(int pos)
 void MusicList::showInExplorer(int pos)
 {
     QString str=music[pos].getUrl().toString();
-    str.remove(str.split("/").last());//åˆ‡å‰²å­—ç¬¦ä¸²è·å¾—æ‰€åœ¨çš„æ–‡ä»¶å¤¹è·¯å¾„
+    str.remove(str.split("/").last());//ÇĞ¸î×Ö·û´®»ñµÃËùÔÚµÄÎÄ¼ş¼ĞÂ·¾¶
     QDesktopServices::openUrl(str);
 }
 

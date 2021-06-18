@@ -9,7 +9,7 @@ LyricWidget::LyricWidget(QWidget *parent) :
     ui(new Ui::LyricWidget)
 {
     ui->setupUi(this);
-    clear();//æ¸…ç©ºç”¨äºæ’ç‰ˆæ—¶çš„æµ‹è¯•å†…å®¹(.uiæ–‡ä»¶ä¸­)
+    clear();//Çå¿ÕÓÃÓÚÅÅ°æÊ±µÄ²âÊÔÄÚÈİ(.uiÎÄ¼şÖĞ)
 }
 
 LyricWidget::~LyricWidget()
@@ -18,7 +18,7 @@ LyricWidget::~LyricWidget()
 }
 
 
-//é‡è½½æ¯”è¾ƒï¼ˆæ­Œè¯æŒ‰æ—¶é—´æ’åºï¼‰
+//ÖØÔØ±È½Ï£¨¸è´Ê°´Ê±¼äÅÅĞò£©
 bool operator <(const LyricLine& A, const LyricLine& B){
     return A.time<B.time;
 }
@@ -30,12 +30,12 @@ bool LyricWidget::process(QString filePath)
     QString content(QString::fromLocal8Bit(lyricFile.readAll()));
     lyricFile.close();
     
-    //å…ˆæ¸…ç©ºæ­Œè¯
+    //ÏÈÇå¿Õ¸è´Ê
     lines.clear();
     
-    const QRegExp rx("\\[(\\d+):(\\d+(\\.\\d+)?)\\]"); //ç”¨æ¥æŸ¥æ‰¾æ—¶é—´æ ‡ç­¾çš„æ­£åˆ™è¡¨è¾¾å¼
+    const QRegExp rx("\\[(\\d+):(\\d+(\\.\\d+)?)\\]"); //ÓÃÀ´²éÕÒÊ±¼ä±êÇ©µÄÕıÔò±í´ïÊ½
 
-    // æ­¥éª¤1
+    // ²½Öè1
     int pos = rx.indexIn(content);
     if (pos == -1) {
         return false;
@@ -44,7 +44,7 @@ bool LyricWidget::process(QString filePath)
         int lastPos;
         QList<int> timeLabels;
         do {
-            // æ­¥éª¤2
+            // ²½Öè2
             timeLabels << (rx.cap(1).toInt() * 60 + rx.cap(2).toDouble()) * 1000;
             lastPos = pos + rx.matchedLength();
             pos = rx.indexIn(content, lastPos);
@@ -54,7 +54,7 @@ bool LyricWidget::process(QString filePath)
                     lines.push_back(LyricLine(time, text));
                 break;
             }
-            // æ­¥éª¤3
+            // ²½Öè3
             QString text = content.mid(lastPos, pos - lastPos);
             if (!text.isEmpty()) {
                 foreach (const int& time, timeLabels)
@@ -63,7 +63,7 @@ bool LyricWidget::process(QString filePath)
             }
         }
         while (true);
-        // æ­¥éª¤4
+        // ²½Öè4
         stable_sort(lines.begin(), lines.end());
     }
     if (lines.size()) {
@@ -97,7 +97,7 @@ void LyricWidget::show(qint64 position)
         ui->label_3i->setText("");
         ui->label_2i->setText("");
         ui->label_1i->setText("");
-        ui->label_i->setText(u8"å½“å‰æ­Œæ›²æ— æ­Œè¯");
+        ui->label_i->setText(u8"µ±Ç°¸èÇúÎŞ¸è´Ê");
         ui->label_i1->setText("");
         ui->label_i2->setText("");
         ui->label_i3->setText("");

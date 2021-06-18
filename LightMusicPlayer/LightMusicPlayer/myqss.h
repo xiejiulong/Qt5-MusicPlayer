@@ -2,9 +2,9 @@
 #define MYQSS_H
 #include<QString>
 
-/*æ­¤æ–‡ä»¶ç»Ÿä¸€å­˜æ”¾ä¸€äº›QSSæ ·å¼ä»£ç */
+/*´ËÎÄ¼şÍ³Ò»´æ·ÅÒ»Ğ©QSSÑùÊ½´úÂë*/
 
-//æ’­æ”¾æŒ‰é’®æ ·å¼
+//²¥·Å°´Å¥ÑùÊ½
 inline QString PlayStyle()
 {
     return "QPushButton"
@@ -29,7 +29,7 @@ inline QString PlayStyle()
     
      "}";
 }
-//æš‚åœæŒ‰é’®æ ·å¼
+//ÔİÍ£°´Å¥ÑùÊ½
 inline QString PaseStyle()
 {
     return "QPushButton"
@@ -141,8 +141,8 @@ inline QString ListWidgetStyle(){
          "width:8px;"
          "background-color:transparent;"
          "margin:0px,0px,0px,0px;"
-        " padding-top:12px;   /*ä¸Šé¢„ç•™ä½ç½®*/"
-        " padding-bottom:12px;    /*ä¸‹é¢„ç•™ä½ç½®*/"
+        " padding-top:12px;   /*ÉÏÔ¤ÁôÎ»ÖÃ*/"
+        " padding-bottom:12px;    /*ÏÂÔ¤ÁôÎ»ÖÃ*/"
      "}"
  
  
